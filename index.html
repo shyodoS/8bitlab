@@ -5,18 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="8Bit Lab - Estúdio criativo híbrido de design, código e inteligência artificial">
     <title>8Bit Lab | Design. Code. Intelligence.</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="static/img/logo_favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="static/img/logo_favicon.ico">
     
-    <!-- Fonts -->
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- Favicon para diferentes dispositivos -->
+    <link rel="apple-touch-icon" sizes="180x180" href="static/img/logo_favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/img/logo_favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/img/logo_favicon.ico">
+    
+    <!-- PRELOAD FONTS - Carrega fontes com prioridade -->
+    <link rel="preload" 
+          href="static/fonts/Jersey15/Jersey15-Regular.ttf" 
+          as="font" 
+          type="font/ttf" 
+          crossorigin>
+    
+    <link rel="preload" 
+          href="static/fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf" 
+          as="font" 
+          type="font/ttf" 
+          crossorigin>
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="static/css/animations.css">
     <link rel="stylesheet" href="static/css/responsive.css">
+    
+    <!-- FONT LOADER SCRIPT - Anti-FOUT -->
+    <script>
+    (function() {
+      'use strict';
+      document.documentElement.classList.add('fonts-loading');
+      
+      const fonts = [
+        new FontFace('Jersey 15', 'url(static/fonts/Jersey15/Jersey15-Regular.ttf)', {
+          weight: '400',
+          style: 'normal',
+          display: 'swap'
+        }),
+        new FontFace('Open Sans', 'url(static/fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf)', {
+          weight: '100 900',
+          stretch: '75% 125%',
+          style: 'normal',
+          display: 'swap'
+        }),
+        new FontFace('Open Sans', 'url(static/fonts/OpenSans/OpenSans-Italic-VariableFont_wdth,wght.ttf)', {
+          weight: '100 900',
+          stretch: '75% 125%',
+          style: 'italic',
+          display: 'swap'
+        })
+      ];
+      
+      Promise.all(fonts.map(font => font.load()))
+        .then(loadedFonts => {
+          loadedFonts.forEach(font => document.fonts.add(font));
+          document.documentElement.classList.remove('fonts-loading');
+          document.documentElement.classList.add('fonts-loaded');
+        })
+        .catch(err => {
+          console.error('Erro ao carregar fontes:', err);
+          document.documentElement.classList.remove('fonts-loading');
+          document.documentElement.classList.add('fonts-error');
+        });
+      
+      setTimeout(() => {
+        if (document.documentElement.classList.contains('fonts-loading')) {
+          document.documentElement.classList.remove('fonts-loading');
+          document.documentElement.classList.add('fonts-timeout');
+        }
+      }, 3000);
+    })();
+    </script>
 </head>
 <body>
     <!-- Custom Cursor -->
@@ -27,16 +89,15 @@
     <div class="noise-overlay"></div>
 
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-          <div class="logo">
+<nav class="navbar " id="navbar">
+    <div class="nav-container">
+        <div class="logo">
             <a href="#" class="logo-link" onclick="scrollToTop()">
-            <div class="logo-glitch" data-text="8BIT LAB">
-        <img src="static/img/logo.png" alt="8BIT LAB Logo" width="35" height="">
-    </div>
-    </a>
-</div>
-
+                <div class="logo-pixel-pulse">
+                    <img src="static/img/logo.png" alt="8BIT LAB Logo" class="logo-img-pixel" width="35" height="auto">
+                </div>
+            </a>
+        </div>
 <script>
 function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -108,98 +169,211 @@ function scrollToTop() {
     </section>
 
     <!-- About Section -->
-    <section id="sobre" class="about section-padding">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">// 01</span>
-                <h2 class="section-title">QUEM SOMOS</h2>
-                <p class="section-subtitle">O ENCONTRO ENTRE O CRIATIVO E O TÉCNICO</p>
+<section id="sobre" class="about section-padding">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-number">// 01</span>
+            <h2 class="section-title">QUEM SOMOS</h2>
+            <p class="section-subtitle">ONDE O CÓDIGO ENCONTRA O DESIGN</p>
+        </div>
+
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
             </div>
-            
-            <div class="about-content">
-                <div class="about-text">
-                    <div class="text-block">
-                        <div class="terminal-header">
-                            <span class="terminal-dot"></span>
-                            <span class="terminal-dot"></span>
-                            <span class="terminal-dot"></span>
-                        </div>
-                        <div class="terminal-content">
-                            <p class="code-line"><span class="prompt">></span> A <strong class="highlight">8Bit Lab</strong> nasceu da soma entre</p>
-                            <p class="code-line"><span class="prompt">></span> <strong>Kah</strong>, diretora criativa apaixonada por</p>
-                            <p class="code-line"><span class="prompt">></span> estética, branding e IA, e <strong>Marcelo</strong>,</p>
-                            <p class="code-line"><span class="prompt">></span> desenvolvedor e analista de sistemas</p>
-                            <p class="code-line"><span class="prompt">></span> especializado em infraestrutura web.</p>
-                            <br>
-                            <p class="code-line"><span class="prompt">></span> Juntos, conectamos <span class="highlight">design</span> e</p>
-                            <p class="code-line"><span class="prompt">></span> <span class="highlight">código</span> para criar soluções digitais</p>
-                            <p class="code-line"><span class="prompt">></span> completas: do conceito visual à</p>
-                            <p class="code-line"><span class="prompt">></span> implementação técnica.</p>
-                            <br>
-                            <p class="code-line accent"><span class="prompt">></span> Somos pequenos, rápidos e autorais</p>
-                            <p class="code-line accent"><span class="prompt">></span> — como deve ser um estúdio do futuro.</p>
-                        </div>
+            <div class="terminal-content">
+                <div class="terminal-text">
+                    <p class="code-line accent"><span class="prompt">></span> Inicializando módulo <strong class="highlight">8Bit Lab</strong>...</span> Sincronizando <span class="highlight">design + código</span>...</p>
+
+                    <p class="code-line"><span class="prompt">></span> A 8Bit Lab é um laboratório de criação visual e tecnológica.</p>
+                    <p class="code-line"><span class="prompt">></span> Um espaço onde design encontra código,</p>
+                    <p class="code-line"><span class="prompt">></span> e ideias ganham vida através da estética e da lógica.
+</p>
+                    
+                    <p class="code-line"><span class="prompt">></span> Nascemos da colaboração entre uma diretora criativa e um desenvolvedor,</p>
+                    <p class="code-line"><span class="prompt">></span> estética e performance para construir experiências digitais completas,</p>
+                    <p class="code-line"><span class="prompt">></span> de marcas a sites inteligentes.</p>
+                    <p class="code-line"><span class="prompt">></span> Exploramos os limites entre o humano e o digital,</p>
+                    <p class="code-line"><span class="prompt">></span> transformando conceitos em experiências únicas, com design,</p>
+                    <p class="code-line"><span class="prompt">></span> tecnologia e IA como nossas principais ferramentas.</p>
+                    <p class="code-line"><span class="prompt">></span> Acreditamos que cada pixel carrega uma história.</p>
+                    <p class="code-line"><span class="prompt">></span> Que design e código não são opostos, são linguagens que se completam.</p>
+                    <p class="code-line"><span class="prompt">></span> Somos criadores, técnicos e curiosos.</p>
+                    <p class="code-line"><span class="prompt">></span> Construímos sistemas, mas também sentimentos.</p>
+                    <p class="code-line"><span class="prompt">></span> A 8Bit Lab existe para conectar o humano e o digital.</p>
+                    <p class="code-line"><span class="prompt">></span>Para transformar ideias em experiências.</p>
+                    <p class="code-line"><span class="prompt">></span> Estúdio independente — rápido, preciso e autoral.</p>
+                    <p class="code-line accent"><span class="prompt">></span> Um pixel de cada vez.</p>
+                </div>
+    <div class="terminal-image">
+                    <div class="computer-pixel-pulse">
+                        <img src="static/img/8bitpc.png" 
+                             alt="Computador 8Bit Lab" 
+                             class="computer-img-pixel" 
+                             width="400" height="auto">
                     </div>
                 </div>
-                
-                
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Services Section -->
-    <section id="servicos" class="services section-padding">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">// 02</span>
-                <h2 class="section-title">O QUE FAZEMOS</h2>
-                <p class="section-subtitle">TUDO O QUE UMA MARCA PRECISA PARA NASCER, CRESCER E FUNCIONAR</p>
-            </div>
-            
-            <div class="services-grid">
-                <div class="service-card">
+
+
+<!-- Services Section    O QUE FAZEMOS!!!!!!!!!!-->
+<section id="servicos" class="services section-padding">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-number">// 02</span>
+            <h2 class="section-title">O QUE FAZEMOS</h2>
+            <p class="section-subtitle">TUDO O QUE UMA MARCA PRECISA PARA NASCER, CRESCER E FUNCIONAR</p>
+        </div>
+        
+        <div class="services-flow-path">
+            <!-- Service 1 - Left -->
+            <div class="service-node node-left" data-service="1">
+                <div class="service-icon-circle">
+                <i data-lucide="palette" class="service-icon"></i>
+                </div>
+                <div class="service-info">
                     <div class="service-number">01</div>
-                    <div class="service-icon">🎨</div>
                     <h3 class="service-title">BRAND LAUNCH KIT</h3>
-                    <p class="service-description">Criação completa de marca — identidade visual, paleta, tipografia e manual.</p>
-                    <div class="service-arrow">→</div>
+                    <p class="service-desc">Criação completa de marca — identidade visual, paleta, tipografia, manual de aplicação e diretrizes de marca.</p>
                 </div>
-                
-                <div class="service-card">
+                <canvas class="arrow-canvas" data-direction="left-to-right"></canvas>
+            </div>
+
+            <!-- Service 2 - Right -->
+            <div class="service-node node-right" data-service="2">
+                <canvas class="arrow-canvas" data-direction="right-to-left"></canvas>
+                <div class="service-info">
                     <div class="service-number">02</div>
-                    <div class="service-icon">⚡</div>
                     <h3 class="service-title">SMART SITE</h3>
-                    <p class="service-description">Sites rápidos e personalizados, com design autoral e performance otimizada.</p>
-                    <div class="service-arrow">→</div>
+                    <p class="service-desc">Sites rápidos e personalizados, com design autoral, performance otimizada e experiência do usuário imersiva.</p>
                 </div>
-                
-                <div class="service-card">
+                <div class="service-icon-circle">
+                    <i data-lucide="zap" class="service-icon"></i>
+                </div>
+            </div>
+
+            <!-- Service 3 - Left -->
+            <div class="service-node node-left" data-service="3">
+                <div class="service-icon-circle">
+                    <i data-lucide="brain" class="service-icon"></i>
+                </div>
+                <div class="service-info">
                     <div class="service-number">03</div>
-                    <div class="service-icon">🤖</div>
                     <h3 class="service-title">AI CREATIVE STUDIO</h3>
-                    <p class="service-description">Imagens, vídeos e campanhas criativas com o poder da inteligência artificial.</p>
-                    <div class="service-arrow">→</div>
+                    <p class="service-desc">Imagens, vídeos e campanhas criativas com o poder da inteligência artificial gerativa e tools de última geração.</p>
                 </div>
-                
-                <div class="service-card">
+                <canvas class="arrow-canvas" data-direction="left-to-right"></canvas>
+            </div>
+
+            <!-- Service 4 - Right -->
+            <div class="service-node node-right" data-service="4">
+                <canvas class="arrow-canvas" data-direction="right-to-left"></canvas>
+                <div class="service-info">
                     <div class="service-number">04</div>
-                    <div class="service-icon">🔌</div>
                     <h3 class="service-title">API & AUTOMATION</h3>
-                    <p class="service-description">Integrações, migrações e automações que conectam tudo o que importa.</p>
-                    <div class="service-arrow">→</div>
+                    <p class="service-desc">Integrações, migrações e automações que conectam sistemas, dados e processos do seu negócio.</p>
                 </div>
-                
-                <div class="service-card">
+                <div class="service-icon-circle">
+                    <i data-lucide="cable" class="service-icon"></i>
+                </div>
+            </div>
+
+            <!-- Service 5 - Left (Final) -->
+            <div class="service-node node-left node-final" data-service="5">
+                <div class="service-icon-circle">
+                    <i data-lucide="wrench" class="service-icon"></i>
+                </div>
+                <div class="service-info">
                     <div class="service-number">05</div>
-                    <div class="service-icon">🛠️</div>
                     <h3 class="service-title">CONTINUOUS SUPPORT</h3>
-                    <p class="service-description">Suporte técnico e visual para manter o digital rodando sem falhas.</p>
-                    <div class="service-arrow">→</div>
+                    <p class="service-desc">Suporte técnico e visual contínuo para manter sua presença digital sempre atualizada e funcionando perfeitamente.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+<section class="start-packs section-padding">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2 class="section-title">Start Packs</h2>
+      <p class="section-subtitle">Escolha o ponto de partida ideal para o seu projeto</p>
+    </div>
 
+    <div class="packs-grid">
+        <!-- Launch Pack -->
+        <div class="pack-card">
+          <h3 class="pack-title">Launch Pack</h3>
+          <p class="pack-subtitle">Brand + Site básico</p>
+          <p class="pack-desc">
+            Tudo o que uma marca precisa para nascer com identidade e presença digital.
+          </p>
+          <ul class="pack-list">
+            <li>Logo, paleta e tipografia</li>
+            <li>Mini brandkit (PDF)</li>
+            <li>Site institucional ou landing page</li>
+            <li>Layout autoral + desenvolvimento completo</li>
+            <li>SEO e performance básica</li>
+          </ul>
+
+            <p class="pack-desc">
+            <i> Para quem está lançando um negócio ou quer sair do zero com uma marca sólida e um site pronto para divulgar.
+          </i></p>
+          <a href="#contato" class="btn-primary">Solicite seu orçamento</a>
+        </div>
+      <!-- SMART PACK -->
+      <div class="pack-card featured">
+        <h3 class="pack-title">Smart Pack</h3>
+        <p class="pack-subtitle">Site + Suporte</p>
+        <p class="pack-desc">
+          Um site bonito, rápido e com base técnica sólida, com suporte contínuo depois da entrega.
+        </p>
+        <ul class="pack-list">
+          <li>Migrações de sites</li>
+          <li>Desenvolvimento (Python + Django, Javascript, HTML/CSS)</li>
+          <li>Configuração de domínio, DNS e hospedagem</li>
+          <li>Wordpress</li>
+          <li>Suporte técnico e pequenas atualizações mensais</li>
+        </ul>
+
+        <p class="pack-desc"><i>
+          Perfeito para empresas que já têm marca, mas precisam de um site moderno e manutenção confiável.</i>
+        </p>
+        <a href="#contato" class="btn-primary">Solicite seu orçamento</a>
+      </div>
+
+
+      <!-- Creative Lab Pack -->
+    <div class="pack-card">
+        <h3 class="pack-title">Creative Lab Pack</h3>
+        <p class="pack-subtitle">Conteúdo para redes + estética de marca</p>
+        <p class="pack-desc">
+          Criação de conteúdo visual inteligente, unindo direção de arte, IA e design para redes sociais.
+        </p>
+        <ul class="pack-list">
+          <li>Direção de arte e conceito visual da marca</li>
+          <li>Criação de posts, carrosséis e reels curtos</li>
+          <li>Imagens e vídeos com IA</li>
+          <li>Edição híbrida (IA + manual)</li>
+          <li>Entregas otimizadas para Instagram, LinkedIn e TikTok</li>
+        </ul>
+
+        <p class="pack-desc"><i>
+          Ideal para marcas que já têm identidade e querem elevar o padrão visual e narrativo das redes com agilidade e inovação.</i>
+        </p>
+        <a href="#contato" class="btn-primary">Solicite seu orçamento</a>
+      </div>
+
+</section>
+
+
+<script src="main.js"></script>
     <!-- Portfolio Section -->
     <section id="projetos" class="portfolio section-padding">
         <div class="container">
@@ -328,129 +502,190 @@ function scrollToTop() {
     </section>
 
     <!-- Contact Section -->
-    <section id="contato" class="contact section-padding">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">// 04</span>
-                <h2 class="section-title">FALE COM A GENTE</h2>
-                <p class="section-subtitle">BORA CRIAR ALGO INCRÍVEL JUNTOS</p>
-            </div>
-            
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="terminal-box">
-                        <div class="terminal-header">
-                            <span class="terminal-dot"></span>
-                            <span class="terminal-dot"></span>
-                            <span class="terminal-dot"></span>
-                            <span class="terminal-title">CONTATO.TXT</span>
+<section id="contato" class="contact section-padding">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-number">// 04</span>
+            <h2 class="section-title">FALE COM A GENTE</h2>
+            <p class="section-subtitle">VAMOS CRIAR ALGO INCRÍVEL JUNTOS</p>
+        </div>
+        
+        <div class="contact-grid">
+            <!-- Lado Esquerdo: Info Criativa -->
+            <div class="contact-hero">
+                <div class="contact-badge">
+                    <i data-lucide="rocket" class="badge-icon"></i>
+                    INICIAR PROJETO
+                </div>
+                <h3 class="contact-hero-title">Toda grande ideia começa com um Start.</h3>
+                <p class="contact-hero-text">
+                A gente transforma a sua ideia em design, código e propósito.     
+                </p>
+                
+                <div class="contact-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i data-lucide="zap"></i>
                         </div>
-                        <div class="terminal-content">
-                            <p class="code-line"><span class="prompt">></span> Quer lançar uma marca?</p>
-                            <p class="code-line"><span class="prompt">></span> Precisa de um site?</p>
-                            <p class="code-line"><span class="prompt">></span> Escreve pra gente.</p>
-                            <br>
-                            <p class="code-line accent"><span class="prompt">></span> A 8Bit Lab é um estúdio pequeno,</p>
-                            <p class="code-line accent"><span class="prompt">></span> mas com ideias grandes.</p>
+                        <div class="feature-text">
+                            <strong>Resposta em 24h</strong>
+                            <span>Rápido e direto ao ponto</span>
                         </div>
                     </div>
-                    
-                    <div class="contact-links">
-                        <a href="mailto:contato@8bitlab.com" class="contact-link">
-                            <span class="link-icon">✉</span>
-                            <span class="link-text">contato@8bitlab.com</span>
-                        </a>
-                        <a href="https://wa.me/5547999999999" class="contact-link" target="_blank">
-                            <span class="link-icon">💬</span>
-                            <span class="link-text">WhatsApp</span>
-                        </a>
-                        <a href="https://instagram.com/8bitlab" class="contact-link" target="_blank">
-                            <span class="link-icon">📸</span>
-                            <span class="link-text">@8bitlab</span>
-                        </a>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i data-lucide="target"></i>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Orçamento transparente</strong>
+                            <span>Sem surpresas ou letras miúdas</span>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i data-lucide="handshake"></i>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Processo colaborativo</strong>
+                            <span>Você participa de cada etapa</span>
+                        </div>
                     </div>
                 </div>
                 
-                <form class="contact-form" id="contactForm">
-                    <div class="form-group">
-                        <label for="name">NOME</label>
-                        <input type="text" id="name" name="name" required>
+                <div class="contact-direct">
+                    <h4>Ou fale diretamente:</h4>
+                    <div class="direct-links">
+                        <a href="mailto:contato@8bitlab.com" class="direct-link">
+                            <i data-lucide="mail" class="direct-icon"></i>
+                            <span>contato@8bitlab.com</span>
+                        </a>
+                        <a href="https://wa.me/5547999999999" class="direct-link" target="_blank">
+                            <i data-lucide="message-circle" class="direct-icon"></i>
+                            <span>WhatsApp</span>
+                        </a>
+                        <a href="https://instagram.com/8bitlab" class="direct-link" target="_blank">
+                            <i data-lucide="instagram" class="direct-icon"></i>
+                            <span>@8bitlab</span>
+                        </a>
                     </div>
-                    <div class="form-group">
-                        <label for="email">E-MAIL</label>
-                        <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+            
+            <!-- Lado Direito: Form Moderno -->
+            <form class="contact-form-modern" id="contactForm">
+                <div class="form-header">
+                    <i data-lucide="message-square" class="form-header-icon"></i>
+                    <h3>Envie sua mensagem</h3>
+                    <p>Preencha os dados abaixo e entraremos em contato</p>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group-modern">
+                        <label for="name">
+                            <i data-lucide="user" class="label-icon"></i>
+                            Seu nome
+                        </label>
+                        <input type="text" id="name" name="name" class="modern-input" required 
+                               placeholder="Como devemos te chamar?">
                     </div>
-                    <div class="form-group">
-                        <label for="message">MENSAGEM</label>
-                        <textarea id="message" name="message" rows="6" required></textarea>
+                    
+                    <div class="form-group-modern">
+                        <label for="email">
+                            <i data-lucide="at-sign" class="label-icon"></i>
+                            E-mail
+                        </label>
+                        <input type="email" id="email" name="email" class="modern-input" required 
+                               placeholder="seu@email.com">
                     </div>
-                    <button type="submit" class="btn-primary">
-                        <span class="btn-text">ENVIAR MENSAGEM</span>
-                        <span class="btn-icon">→</span>
+                    
+                    <div class="form-group-modern full-width">
+                        <label for="projectType">
+                            <i data-lucide="briefcase" class="label-icon"></i>
+                            Tipo de projeto
+                        </label>
+                        <select id="projectType" name="projectType" class="modern-select">
+                            <option value="">Selecione uma opção</option>
+                            <option value="brand">Criação de Marca</option>
+                            <option value="website">Site/Sistema</option>
+                            <option value="ai">Conteúdo com IA</option>
+                            <option value="automation">Automação/API</option>
+                            <option value="support">Suporte Técnico</option>
+                            <option value="other">Outro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group-modern full-width">
+                        <label for="message">
+                            <i data-lucide="file-text" class="label-icon"></i>
+                            Conte sobre seu projeto
+                        </label>
+                        <textarea id="message" name="message" class="modern-textarea" required 
+                                  placeholder="Descreva sua ideia, objetivos, prazos..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Botão Windows 95 com ícone -->
+                <div class="form-submit">
+                    <button type="submit" class="win95-button-solo">
+                        <span class="win95-button-inner">
+                           
+                            START
+                        </span>
                     </button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-    </section>
-
+    </div>
+</section>
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <div class="logo-glitch" data-text="8BIT LAB">
-                        8B<span class="logo-highlight">I</span>T LAB
-                    </div>
-                    <p class="footer-tagline">ONDE O DESIGN ENCONTRA O CÓDIGO</p>
+ <!-- Footer Minimalista -->
+<footer class="footer-minimal">
+    <div class="container">
+        <div class="footer-content-minimal">
+            <!-- Logo e Tagline -->
+            <div class="footer-brand-minimal">
+                 <div class="logo-combined">
+                    <!-- Imagem PNG -->
+                    <img src="static\img\logo_font.png" 
+                         alt="8BIT LAB" 
+                         class="logo-image"
+                         width="200" 
+                         height="">
+
                 </div>
-                
-                <div class="footer-links">
-                    <div class="footer-col">
-                        <h4>NAVEGAÇÃO</h4>
-                        <ul>
-                            <li><a href="#sobre">Sobre</a></li>
-                            <li><a href="#servicos">Serviços</a></li>
-                            <li><a href="#projetos">Projetos</a></li>
-                            <li><a href="#contato">Contato</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-col">
-                        <h4>REDES</h4>
-                        <ul>
-                            <li><a href="#" target="_blank">Instagram</a></li>
-                            <li><a href="#" target="_blank">LinkedIn</a></li>
-                            <li><a href="#" target="_blank">Behance</a></li>
-                            <li><a href="#" target="_blank">GitHub</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-col">
-                        <h4>STACK</h4>
-                        <ul>
-                            <li>Python</li>
-                            <li>Django</li>
-                            <li>JavaScript</li>
-                            <li>CSS3</li>
-                        </ul>
-                    </div>
-                </div>
+                <p class="footer-tagline-minimal">DESIGN • CODE • INTELLIGENCE</p>
             </div>
             
-            <div class="footer-bottom">
-                <p>© 2025 8BIT LAB. ONDE O DESIGN ENCONTRA O CÓDIGO.</p>
-                <div class="footer-credits">
-                    <span>DESIGNED & CODED WITH</span>
-                    <span class="heart">♥</span>
-                    <span>BY 8BIT LAB</span>
-                </div>
+            <!-- Ícones Sociais -->
+            <div class="footer-social-minimal">
+                <a href="https://instagram.com/8bitlab" class="social-icon-minimal" target="_blank" aria-label="Instagram">
+                    <i data-lucide="instagram"></i>
+                </a>
+                <a href="https://linkedin.com/company/8bitlab" class="social-icon-minimal" target="_blank" aria-label="LinkedIn">
+                    <i data-lucide="linkedin"></i>
+                </a>
+                <a href="https://behance.net/8bitlab" class="social-icon-minimal" target="_blank" aria-label="Behance">
+                    <i data-lucide="image"></i>
+                </a>
+                <a href="https://github.com/8bitlab" class="social-icon-minimal" target="_blank" aria-label="GitHub">
+                    <i data-lucide="github"></i>
+                </a>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="footer-copyright">
+                <p>© 2025 8BIT LAB — ONDE O DESIGN ENCONTRA O CÓDIGO</p>
             </div>
         </div>
-    </footer>
-
+    </div>
+</footer>
     <!-- Scripts -->
     <script src="static/js/main.js"></script>
     <script src="static/js/animations.js"></script>
     <script src="static/js/cursor.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+    lucide.createIcons();
+    </script>
 </body>
 </html>
