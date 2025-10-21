@@ -1,0 +1,20 @@
+
+```
+8bit-lab/
+├── index.html
+├── static/
+│   ├── css/
+│   │   ├── style.css
+│   │   ├── animations.css
+│   │   └── responsive.css
+│   ├── js/
+│   │   ├── main.js
+│   │   ├── animations.js
+│   │   └── cursor.js
+│   ├── fonts/
+│   │   └── (fontes 8bit via CDN)
+│   └── img/
+│       ├── noise.png
+│       └── (imagens do portfólio)
+└── README.md
+```

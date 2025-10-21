@@ -1,0 +1,309 @@
+/* ============================================
+   8BIT LAB - ANIMATIONS
+   ============================================ */
+
+/* Cube Rotation */
+@keyframes rotateCube {
+    from {
+        transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg);
+    }
+}
+
+/* Ring Pulse */
+@keyframes ringPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* Scan Effect */
+@keyframes scan {
+    0% {
+        top: -100%;
+    }
+    100% {
+        top: 100%;
+    }
+}
+
+/* Scroll Line */
+@keyframes scrollLine {
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        height: 40px;
+        opacity: 0;
+    }
+}
+
+/* Heartbeat */
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.2);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
+/* Glitch Animation */
+@keyframes glitch {
+    0% {
+        text-shadow: 0.05em 0 0 rgba(234, 83, 46, 0.75),
+                     -0.025em -0.05em 0 rgba(0, 150, 255, 0.75),
+                     0.025em 0.05em 0 rgba(166, 166, 166, 0.75);
+    }
+    14% {
+        text-shadow: 0.05em 0 0 rgba(234, 83, 46, 0.75),
+                     -0.025em -0.05em 0 rgba(0, 150, 255, 0.75),
+                     0.025em 0.05em 0 rgba(166, 166, 166, 0.75);
+    }
+    15% {
+        text-shadow: -0.05em -0.025em 0 rgba(234, 83, 46, 0.75),
+                     0.025em 0.025em 0 rgba(0, 150, 255, 0.75),
+                     -0.05em -0.05em 0 rgba(166, 166, 166, 0.75);
+    }
+    49% {
+        text-shadow: -0.05em -0.025em 0 rgba(234, 83, 46, 0.75),
+                     0.025em 0.025em 0 rgba(0, 150, 255, 0.75),
+                     -0.05em -0.05em 0 rgba(166, 166, 166, 0.75);
+    }
+    50% {
+        text-shadow: 0.025em 0.05em 0 rgba(234, 83, 46, 0.75),
+                     0.05em 0 0 rgba(0, 150, 255, 0.75),
+                     0 -0.05em 0 rgba(166, 166, 166, 0.75);
+    }
+    99% {
+        text-shadow: 0.025em 0.05em 0 rgba(234, 83, 46, 0.75),
+                     0.05em 0 0 rgba(0, 150, 255, 0.75),
+                     0 -0.05em 0 rgba(166, 166, 166, 0.75);
+    }
+    100% {
+        text-shadow: -0.025em 0 0 rgba(234, 83, 46, 0.75),
+                     -0.025em -0.025em 0 rgba(0, 150, 255, 0.75),
+                     -0.025em -0.05em 0 rgba(166, 166, 166, 0.75);
+    }
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip: rect(10px, 9999px, 50px, 0); }
+    10% { clip: rect(100px, 9999px, 120px, 0); }
+    20% { clip: rect(180px, 9999px, 5px, 0); }
+    30% { clip: rect(5px, 9999px, 140px, 0); }
+    40% { clip: rect(60px, 9999px, 100px, 0); }
+    50% { clip: rect(140px, 9999px, 70px, 0); }
+    60% { clip: rect(15px, 9999px, 90px, 0); }
+    70% { clip: rect(110px, 9999px, 35px, 0); }
+    80% { clip: rect(30px, 9999px, 160px, 0); }
+    90% { clip: rect(90px, 9999px, 130px, 0); }
+    100% { clip: rect(130px, 9999px, 20px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip: rect(100px, 9999px, 170px, 0); }
+    10% { clip: rect(55px, 9999px, 135px, 0); }
+    20% { clip: rect(75px, 9999px, 25px, 0); }
+    30% { clip: rect(150px, 9999px, 10px, 0); }
+    40% { clip: rect(40px, 9999px, 120px, 0); }
+    50% { clip: rect(140px, 9999px, 65px, 0); }
+    60% { clip: rect(20px, 9999px, 110px, 0); }
+    70% { clip: rect(125px, 9999px, 40px, 0); }
+    80% { clip: rect(10px, 9999px, 150px, 0); }
+    90% { clip: rect(70px, 9999px, 95px, 0); }
+    100% { clip: rect(35px, 9999px, 140px, 0); }
+}
+
+
+/* Glitch Text Effect */
+.glitch-text {
+    position: relative;
+    animation: glitch 5s infinite;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.glitch-text::before {
+    left: 3px;
+    text-shadow: -3px 0 #ea532e;
+    animation: glitch-anim-1 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+    left: -3px;
+    text-shadow: -3px 0 #0096FF;
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+/* Fade In Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Utility Animation Classes */
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.fade-in-left {
+    animation: fadeInLeft 0.8s ease-out forwards;
+}
+
+.fade-in-right {
+    animation: fadeInRight 0.8s ease-out forwards;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(0, 150, 255, 0.7);
+    }
+    50% {
+        opacity: 0.8;
+        box-shadow: 0 0 0 10px rgba(0, 150, 255, 0);
+    }
+}
+
+/* Float Animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Badge Pulse */
+.hero-badge {
+    animation: pulse 2s infinite;
+}
+
+/* Scroll Line Animation */
+.scroll-line {
+    animation: scrollLine 2s infinite;
+}
+
+/* Heartbeat Animation */
+.heart {
+    animation: heartbeat 1.5s infinite;
+}
+
+/* Ring Animations */
+.ring:nth-child(1) {
+    animation: ringPulse 3s infinite;
+    animation-delay: 0s;
+}
+
+.ring:nth-child(2) {
+    animation: ringPulse 3s infinite;
+    animation-delay: 1s;
+}
+
+.ring:nth-child(3) {
+    animation: ringPulse 3s infinite;
+    animation-delay: 2s;
+}
+
+/* Avatar Scan Animation */
+.team-card:hover .avatar-scan {
+    animation: scan 1.5s ease-in-out;
+}
+
+.portfolio-item:hover .portfolio-scan {
+    animation: scan 1s ease-in-out;
+}
+
+/* Stagger Delays */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+
+/* Loading Animation */
+@keyframes loading {
+    0%, 80%, 100% {
+        box-shadow: 0 0;
+        height: 4em;
+    }
+    40% {
+        box-shadow: 0 -2em;
+        height: 5em;
+    }
+}
+
+/* Blink Animation */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Glow Animation */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px var(--primary-red),
+                    0 0 10px var(--primary-red);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--primary-red),
+                    0 0 30px var(--primary-red);
+    }
+}

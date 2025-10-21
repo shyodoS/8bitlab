@@ -1,0 +1,371 @@
+# 🎮 8BIT LAB - Website
+
+**Design. Code. Intelligence.**
+
+Site institucional do estúdio criativo 8Bit Lab, especializado em branding, desenvolvimento web e criações com IA.
+
+---
+
+## 📁 Estrutura de Arquivos
+
+```
+8bit-lab/
+├── index.html
+├── static/
+│   ├── css/
+│   │   ├── style.css       # Estilos principais
+│   │   ├── animations.css  # Animações e efeitos
+│   │   └── responsive.css  # Media queries
+│   └── js/
+│       ├── main.js         # JavaScript principal
+│       ├── cursor.js       # Cursor customizado
+│       └── animations.js   # (opcional - para mais animações)
+└── README.md
+```
+
+---
+
+## 🚀 Como Usar
+
+### 1. Criar a estrutura de pastas
+
+```bash
+mkdir -p 8bit-lab/static/{css,js}
+cd 8bit-lab
+```
+
+### 2. Copiar os arquivos
+
+Copie cada arquivo fornecido para sua respectiva pasta:
+
+- `index.html` → raiz do projeto
+- `style.css` → `static/css/`
+- `animations.css` → `static/css/`
+- `responsive.css` → `static/css/`
+- `main.js` → `static/js/`
+- `cursor.js` → `static/js/`
+
+### 3. Abrir o site
+
+**Opção A - Diretamente no navegador:**
+```bash
+open index.html
+```
+
+**Opção B - Com servidor local (recomendado):**
+
+```bash
+# Python
+python -m http.server 8000
+
+# Node.js
+npx http-server
+
+# PHP
+php -S localhost:8000
+```
+
+Acesse: `http://localhost:8000`
+
+---
+
+## 🎨 Paleta de Cores
+
+```css
+--primary-red: #ea532e     /* Vermelho principal */
+--blue-digital: #0096FF    /* Azul digital */
+--light-gray: #D0D0D0      /* Texto claro */
+--medium-gray: #A6A6A6     /* Texto médio */
+--dark-bg: #1B1B1B         /* Fundo escuro */
+--white: #FFFFFF           /* Branco */
+```
+
+---
+
+## ✨ Features
+
+- ✅ Design futurístico 8-bit
+- ✅ Fonte pixel art (Press Start 2P)
+- ✅ Textura de ruído no background
+- ✅ Cubo 3D holográfico animado
+- ✅ Efeitos glitch em textos
+- ✅ Cursor customizado com trail
+- ✅ Terminal effects
+- ✅ Animações suaves com scroll reveal
+- ✅ Menu mobile responsivo
+- ✅ Grid futurístico
+- ✅ Scan lines nos cards
+- ✅ 100% responsivo
+
+---
+
+## 📝 Customização
+
+### Alterar cores
+
+Edite as variáveis CSS em `static/css/style.css`:
+
+```css
+:root {
+    --primary-red: #ea532e;
+    --blue-digital: #0096FF;
+    /* suas cores aqui */
+}
+```
+
+### Adicionar projeto ao portfólio
+
+No `index.html`, dentro da `<div class="portfolio-grid">`:
+
+```html
+<div class="portfolio-item">
+    <div class="portfolio-frame">
+        <div class="frame-corner tl"></div>
+        <div class="frame-corner tr"></div>
+        <div class="frame-corner bl"></div>
+        <div class="frame-corner br"></div>
+    </div>
+    <div class="portfolio-image grad-1">
+        <div class="portfolio-scan"></div>
+    </div>
+    <div class="portfolio-overlay">
+        <div class="portfolio-number">07</div>
+        <h3 class="portfolio-title">SEU PROJETO</h3>
+        <p class="portfolio-category">CATEGORIA • TIPO</p>
+        <div class="portfolio-arrow">→</div>
+    </div>
+</div>
+```
+
+### Conectar formulário de contato
+
+Edite em `static/js/main.js`:
+
+```javascript
+contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value
+    };
+    
+    // Substituir por sua API
+    fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Mensagem enviada!');
+        contactForm.reset();
+    })
+    .catch(error => console.error('Error:', error));
+});
+```
+
+---
+
+## 🔧 Integração com Django
+
+### Models sugeridos
+
+```python
+# apps/portfolio/models.py
+from django.db import models
+
+class Project(models.Model):
+    CATEGORY_CHOICES = [
+        ('branding', 'Branding'),
+        ('web', 'Web Development'),
+        ('ai', 'AI Creative'),
+    ]
+    
+    title = models.CharField(max_length=200)
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    description = models.TextField()
+    image = models.ImageField(upload_to='portfolio/')
+    date = models.DateField()
+    featured = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['-date']
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+```
+
+### View de contato
+
+```python
+# apps/core/views.py
+from django.views.decorators.http import require_http_methods
+from django.http import JsonResponse
+import json
+
+@require_http_methods(["POST"])
+def contact_view(request):
+    data = json.loads(request.body)
+    
+    ContactMessage.objects.create(
+        name=data['name'],
+        email=data['email'],
+        message=data['message']
+    )
+    
+    return JsonResponse({'status': 'success'})
+```
+
+---
+
+## 📱 Responsividade
+
+| Dispositivo | Breakpoint | Grid |
+|------------|------------|------|
+| Desktop | 1024px+ | 3 colunas |
+| Tablet | 768px - 1024px | 2 colunas |
+| Mobile | até 768px | 1 coluna |
+| Mobile Small | até 480px | 1 coluna |
+
+---
+
+## ⚡ Performance
+
+- ✅ CSS otimizado e modular
+- ✅ JavaScript sem bibliotecas externas
+- ✅ Animações com GPU acceleration
+- ✅ Lazy loading ready
+- ✅ Intersection Observer API
+- ✅ Debounce e throttle
+
+---
+
+## 🎨 Fontes Utilizadas
+
+**Press Start 2P** - Títulos e elementos 8-bit  
+**Share Tech Mono** - Texto corrido e código
+
+Via Google Fonts (já incluído no HTML)
+
+---
+
+## 🐛 Troubleshooting
+
+### Cursor não aparece
+- Verifique se `cursor.js` está carregado
+- Funciona apenas em dispositivos com hover (desktop)
+
+### Animações não funcionam
+- Confirme que `animations.css` está linkado
+- Verifique suporte do navegador
+
+### Menu mobile não abre
+- Verifique console para erros JS
+- Confirme IDs corretos: `menuToggle` e `navMenu`
+
+### Cubo 3D não gira
+- Verifique suporte para CSS 3D transforms
+- Teste em navegadores modernos (Chrome, Firefox, Safari)
+
+---
+
+## 📊 SEO (Adicionar ao `<head>`)
+
+```html
+<!-- SEO Meta Tags -->
+<meta name="description" content="8Bit Lab - Estúdio criativo híbrido especializado em design, desenvolvimento web e inteligência artificial">
+<meta name="keywords" content="design, web development, branding, IA, sites, django, python">
+<meta name="author" content="8Bit Lab">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="8Bit Lab | Design. Code. Intelligence.">
+<meta property="og:description" content="Estúdio criativo híbrido">
+<meta property="og:image" content="https://8bitlab.com/og-image.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="8Bit Lab">
+```
+
+---
+
+## ✅ Checklist de Publicação
+
+- [ ] Testar em Chrome, Firefox, Safari, Edge
+- [ ] Validar responsividade
+- [ ] Testar formulário de contato
+- [ ] Adicionar imagens reais ao portfólio
+- [ ] Configurar Google Analytics
+- [ ] Adicionar favicons
+- [ ] Otimizar imagens (WebP)
+- [ ] Configurar SSL/HTTPS
+- [ ] Testar performance (Lighthouse)
+- [ ] Criar 404 page
+- [ ] Adicionar sitemap.xml
+- [ ] Configurar robots.txt
+
+---
+
+## 🚀 Deploy
+
+### Netlify
+```bash
+# Instalar Netlify CLI
+npm install -g netlify-cli
+
+# Deploy
+netlify deploy --prod
+```
+
+### Vercel
+```bash
+# Instalar Vercel CLI
+npm install -g vercel
+
+# Deploy
+vercel --prod
+```
+
+### GitHub Pages
+```bash
+git add .
+git commit -m "Deploy 8Bit Lab"
+git push origin main
+
+# Ativar GitHub Pages nas configurações do repositório
+```
+
+---
+
+## 📄 Licença
+
+© 2025 8Bit Lab. Todos os direitos reservados.
+
+---
+
+## 👥 Equipe
+
+**Kah** - Diretora Criativa  
+Design • IA • Branding
+
+**Marcelo** - Desenvolvedor & Analista  
+Python • Django • Infraestrutura
+
+---
+
+## 📞 Contato
+
+- **Email**: contato@8bitlab.com
+- **WhatsApp**: +55 47 99999-9999
+- **Instagram**: [@8bitlab](https://instagram.com/8bitlab)
+
+---
+
+**Made with ♥ by 8Bit Lab**
