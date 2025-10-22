@@ -453,26 +453,7 @@ class TerminalTypewriter {
         return this.speed + Math.random() * 20 - 10;
     }
     
-    playTypeSound() {
-        // Efeito sonoro sutil (opcional)
-        if (Math.random() > 0.7) { // Apenas alguns caracteres fazem som
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.value = 800 + Math.random() * 400;
-            oscillator.type = 'sine';
-            
-            gainNode.gain.value = 0.02; // Volume bem baixo
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
-            
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.1);
-        }
-    }
+ 
     
     addBlinkingCursor() {
         // Adiciona cursor piscando no final
@@ -530,4 +511,179 @@ document.addEventListener('DOMContentLoaded', function() {
     initTerminalTypewriter();
     
     // ... resto do código ...
+});
+
+
+class ForceScrollSnap {
+  constructor(options = {}) {
+    this.snapDelay = options.snapDelay ?? 100;
+    this.duration = options.duration ?? 600;
+    this.easing = options.easing ?? this.easeInOutCubic;
+
+    this.navbar = document.querySelector('.navbar');
+    this.navbarHeight = this.navbar ? this.navbar.offsetHeight : 0;
+    
+    // CONFIGURAÇÕES POR SEÇÃO - AGORA FUNCIONAL
+    this.sectionConfigs = options.sectionConfigs ?? {
+      'hero': { threshold: 150, offset: 0 },
+      'sobre': { threshold: 200, offset: 20 },
+      'servicos': { threshold: 200, offset: 20 },
+      'packs': { threshold: 100, offset: -100 },
+      'projetos': { threshold: 200, offset: 20 },
+      'contato': { threshold: 150, offset: 0 }
+    };
+    
+    this.sections = [];
+    this.isAnimating = false;
+    this.scrollTimer = null;
+    this.lastTouchTime = 0;
+
+    this.init();
+  }
+
+  init() {
+    this.collectSections();
+    this.bindEvents();
+    window.addEventListener('resize', () => this.collectSections());
+  }
+
+  collectSections() {
+    this.sections = Object.keys(this.sectionConfigs)
+      .map(id => {
+        const el = document.getElementById(id);
+        if (!el) {
+          console.warn(`Seção não encontrada: ${id}`);
+          return null;
+        }
+        
+        const config = this.sectionConfigs[id];
+        const top = el.getBoundingClientRect().top + window.pageYOffset - this.navbarHeight + (config.offset || 0);
+        
+        return { 
+          id, 
+          el, 
+          top,
+          threshold: config.threshold || 150, // USA THRESHOLD INDIVIDUAL
+          offset: config.offset || 0
+        };
+      })
+      .filter(Boolean)
+      .sort((a,b) => a.top - b.top);
+      
+    console.log('Seções carregadas:', this.sections);
+  }
+
+  bindEvents() {
+    window.addEventListener('wheel', () => this.onUserScroll(), { passive: true });
+    window.addEventListener('touchstart', () => this.onTouchStart(), { passive: true });
+    window.addEventListener('touchend', () => this.onTouchEnd(), { passive: true });
+    window.addEventListener('scroll', () => this.onScroll(), { passive: true });
+  }
+
+  onTouchStart() {
+    this.lastTouchTime = Date.now();
+  }
+
+  onTouchEnd() {
+    setTimeout(() => this.scheduleSnap(), 120);
+  }
+
+  onUserScroll() {
+    if (this.isAnimating) this.cancelAnimation();
+    this.scheduleSnap();
+  }
+
+  onScroll() {
+    this.scheduleSnap();
+  }
+
+  scheduleSnap() {
+    clearTimeout(this.scrollTimer);
+    this.scrollTimer = setTimeout(() => {
+      if (this.isAnimating) return;
+      if (Date.now() - this.lastTouchTime < 200) return;
+      this.snapToClosest();
+    }, this.snapDelay);
+  }
+
+  snapToClosest() {
+    const current = window.scrollY || window.pageYOffset;
+    let closest = null;
+    let minDist = Infinity;
+
+    for (const s of this.sections) {
+      const dist = Math.abs(current - s.top);
+      if (dist < minDist) {
+        minDist = dist;
+        closest = s;
+      }
+    }
+
+    if (!closest) return;
+
+    // USA O THRESHOLD ESPECÍFICO DA SEÇÃO ENCONTRADA
+    if (minDist <= closest.threshold) {
+      console.log(`Snapping para ${closest.id} (threshold: ${closest.threshold}px)`);
+      this.animateScrollTo(closest.top, this.duration, this.easing);
+    }
+  }
+
+  // ... (mantenha os métodos animateScrollTo, easeInOutCubic, etc iguais)
+  animateScrollTo(targetY, duration = 600, easingFn = this.easeInOutCubic) {
+    this.isAnimating = true;
+    const startY = window.pageYOffset;
+    const diff = targetY - startY;
+    const startTime = performance.now();
+    let rafId = null;
+
+    const step = (now) => {
+      const elapsed = now - startTime;
+      const t = Math.min(1, elapsed / duration);
+      const eased = easingFn(t);
+      window.scrollTo(0, Math.round(startY + diff * eased));
+
+      if (t < 1) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        this.isAnimating = false;
+        window.scrollTo(0, targetY);
+      }
+    };
+
+    rafId = requestAnimationFrame(step);
+
+    this.cancelAnimation = () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+      this.isAnimating = false;
+    };
+  }
+
+  easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  snapTo(id) {
+    const s = this.sections.find(x => x.id === id);
+    if (!s) return;
+    this.animateScrollTo(s.top, this.duration, this.easing);
+  }
+}
+
+// INICIALIZAÇÃO CORRETA
+document.addEventListener('DOMContentLoaded', () => {
+  const snap = new ForceScrollSnap({
+    snapDelay: 100,
+    duration: 400,
+    sectionConfigs: {
+      'hero': { threshold: 150, offset: 0 },
+      'sobre': { threshold: 200, offset: 270 },
+      'servicos': { threshold: 200, offset: 0 },
+      'packs': { threshold: 100, offset: 100 }, 
+      'projetos': { threshold: 200, offset: 100 },
+      'contato': { threshold: 100, offset: 220}
+    }
+  });
 });

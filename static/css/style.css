@@ -3,6 +3,7 @@
    Coloque ANTES de todos os outros estilos
    =========================== */
 
+
 /* Font-face declarations com font-display: swap */
 @font-face {
   font-family: 'Jersey 15';
@@ -89,22 +90,7 @@ h1, h2, h3, .section-title, .hero-title, .nav-link, .logo-glitch {
   /* Fallback monospace similar ao Jersey 15 */
 }
 
-/* ===========================
-   PRELOAD HINT (Opcional)
-   Use no HTML <head> para priorizar fontes:
-   
-   <link rel="preload" 
-         href="static/fonts/Jersey15/Jersey15-Regular.ttf" 
-         as="font" 
-         type="font/ttf" 
-         crossorigin>
-   
-   <link rel="preload" 
-         href="static/fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf" 
-         as="font" 
-         type="font/ttf" 
-         crossorigin>
-   =========================== */
+
 
 /* CSS Variables */
 :root {
@@ -127,6 +113,7 @@ h1, h2, h3, .section-title, .hero-title, .nav-link, .logo-glitch {
     
     --border-width: 2px;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --navbar-height: 72px;
 }
 
 
@@ -152,6 +139,7 @@ body {
     overflow-x: hidden;
     line-height: 1.6;
     position: relative;
+    scroll-padding-top: var(--navbar-height);
 }
 
 body::before {
@@ -468,6 +456,31 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--white);
     border-color: var(--primary-red);
     background: var(--primary-red);
+    font-size: 10px;
+}
+
+.btn-primary-packs {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 6px 12px;
+    font-family: var(--font-primary);
+    font-size: 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: var(--border-width) solid;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+    color: var(--white);
+    border-color: var(--primary-red);
+    background: var(--primary-red);
+    width: fit-content;
+    border-radius: 5px;
+    
 }
 
 .btn-primary::before {
@@ -480,6 +493,7 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--blue-digital);
     transition: left 0.3s;
     z-index: -1;
+    font-size: 60px;
 }
 
 .btn-primary:hover::before {
@@ -1082,7 +1096,8 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 13px;
     line-height: 2;
     color: var(--medium-gray);
-    margin-bottom: var(--spacing-xl);
+    max-width: 800px;
+    margin: 0 auto 30px auto;
 }
 
 .portfolio-grid {
@@ -2202,3 +2217,5 @@ h1, h2, h3, h4, h5, h6 {
         }
     }
 }
+
+
