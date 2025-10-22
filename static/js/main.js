@@ -362,46 +362,64 @@ document.head.appendChild(style);
 // TERMINAL TYPEWRITER EFFECT
 // ============================================
 
+
+
 class TerminalTypewriter {
     constructor(terminalElement) {
         this.terminal = terminalElement;
         this.lines = this.extractLines();
         this.currentLine = 0;
         this.currentChar = 0;
-        this.speed = 30; // Velocidade da digitação (ms)
-        this.lineDelay = 800; // Delay entre linhas (ms)
+        this.speed = 30;
+        this.lineDelay = 400;
         this.isTyping = false;
         
         this.init();
     }
     
     extractLines() {
-        // Extrai o texto das linhas do terminal
-        const codeLines = this.terminal.querySelectorAll('.code-line');
+        // Busca dentro de .terminal-text se existir, senão busca direto
+        const container = this.terminal.querySelector('.terminal-text') || this.terminal;
+        const codeLines = container.querySelectorAll('.code-line');
         const lines = [];
         
         codeLines.forEach(line => {
-            // Remove o prompt e mantém só o texto
-            const text = line.textContent.replace('>', '').trim();
-            lines.push(text);
+            // Salva o HTML completo da linha (com tags)
+            const fullHTML = line.innerHTML;
             
-            // Limpa o conteúdo original
-            line.textContent = '> ';
+            // Extrai apenas o texto para digitar (sem as tags)
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = fullHTML;
+            const textOnly = tempDiv.textContent || tempDiv.innerText;
+            
+            lines.push({
+                element: line,
+                html: fullHTML,
+                text: textOnly,
+                hasPrompt: fullHTML.includes('class="prompt"')
+            });
+            
+            // Limpa a linha (mantém o prompt se existir)
+            if (lines[lines.length - 1].hasPrompt) {
+                line.innerHTML = '<span class="prompt">></span> ';
+            } else {
+                line.innerHTML = '';
+            }
         });
         
+        console.log('Linhas extraídas para typewriter:', lines.length);
         return lines;
     }
     
     init() {
-        // Inicia o efeito quando o terminal estiver visível
         this.observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !this.isTyping) {
                     this.isTyping = true;
-                    this.startTyping();
+                    setTimeout(() => this.startTyping(), 300);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.3 });
         
         this.observer.observe(this.terminal);
     }
@@ -412,7 +430,6 @@ class TerminalTypewriter {
     
     typeLine(lineIndex) {
         if (lineIndex >= this.lines.length) {
-            // Efeito final - cursor piscando
             this.addBlinkingCursor();
             return;
         }
@@ -420,99 +437,150 @@ class TerminalTypewriter {
         this.currentLine = lineIndex;
         this.currentChar = 0;
         
-        const lineElement = this.terminal.querySelectorAll('.code-line')[lineIndex];
-        
-        this.typeNextChar(lineElement, lineIndex);
+        const lineData = this.lines[lineIndex];
+        this.typeNextChar(lineData, lineIndex);
     }
     
-    typeNextChar(lineElement, lineIndex) {
-        if (this.currentChar < this.lines[lineIndex].length) {
-            // Adiciona próximo caractere
-            const char = this.lines[lineIndex][this.currentChar];
-            lineElement.textContent += char;
+    typeNextChar(lineData, lineIndex) {
+        const { element, html, text, hasPrompt } = lineData;
+        
+        if (this.currentChar < text.length) {
+            // Reconstrói o HTML até o caractere atual
+            const currentText = text.substring(0, this.currentChar + 1);
+            
+            // Se tem prompt, mantém ele
+            if (hasPrompt) {
+                element.innerHTML = '<span class="prompt">></span> ' + this.applyHTMLFormatting(html, currentText);
+            } else {
+                element.innerHTML = this.applyHTMLFormatting(html, currentText);
+            }
+            
             this.currentChar++;
             
-            // Efeito sonoro opcional (pode remover se não quiser)
-            this.playTypeSound();
-            
-            // Continua digitando
             setTimeout(() => {
-                this.typeNextChar(lineElement, lineIndex);
+                this.typeNextChar(lineData, lineIndex);
             }, this.getRandomSpeed());
             
         } else {
-            // Próxima linha
+            // Restaura o HTML completo no final
+            element.innerHTML = html;
+            
             setTimeout(() => {
                 this.typeLine(lineIndex + 1);
             }, this.lineDelay);
         }
     }
     
+    applyHTMLFormatting(originalHTML, currentText) {
+        // Cria um elemento temporário com o HTML original
+        const temp = document.createElement('div');
+        temp.innerHTML = originalHTML;
+        
+        // Remove o prompt se existir
+        const prompt = temp.querySelector('.prompt');
+        if (prompt) prompt.remove();
+        
+        // Pega todo o conteúdo
+        let content = temp.innerHTML;
+        
+        // Extrai o texto puro
+        temp.innerHTML = content;
+        const fullText = temp.textContent || temp.innerText;
+        
+        // Se o texto atual é menor que o total, trunca mantendo as tags
+        if (currentText.length < fullText.length) {
+            const ratio = currentText.length / fullText.length;
+            return this.truncateHTML(content, currentText);
+        }
+        
+        return content;
+    }
+    
+    truncateHTML(html, targetText) {
+        // Método simples: reconstrói o HTML caractere por caractere
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+        
+        let result = '';
+        let charCount = 0;
+        
+        const traverse = (node) => {
+            if (charCount >= targetText.length) return;
+            
+            if (node.nodeType === Node.TEXT_NODE) {
+                const text = node.textContent || '';
+                const remaining = targetText.length - charCount;
+                const slice = text.substring(0, remaining);
+                result += slice;
+                charCount += slice.length;
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                if (charCount >= targetText.length) return;
+                
+                const tagName = node.tagName.toLowerCase();
+                const attrs = Array.from(node.attributes)
+                    .map(attr => `${attr.name}="${attr.value}"`)
+                    .join(' ');
+                
+                result += `<${tagName}${attrs ? ' ' + attrs : ''}>`;
+                
+                for (let child of node.childNodes) {
+                    traverse(child);
+                    if (charCount >= targetText.length) break;
+                }
+                
+                result += `</${tagName}>`;
+            }
+        };
+        
+        for (let child of temp.childNodes) {
+            traverse(child);
+            if (charCount >= targetText.length) break;
+        }
+        
+        return result;
+    }
+    
     getRandomSpeed() {
-        // Variação de velocidade para parecer mais natural
         return this.speed + Math.random() * 20 - 10;
     }
     
- 
-    
     addBlinkingCursor() {
-        // Adiciona cursor piscando no final
         const cursor = document.createElement('span');
         cursor.className = 'terminal-cursor';
         cursor.textContent = '▋';
+        cursor.style.marginLeft = '4px';
         
-        const lastLine = this.terminal.querySelector('.code-line:last-child');
-        if (lastLine) {
-            lastLine.appendChild(cursor);
+        const lastLine = this.lines[this.lines.length - 1];
+        if (lastLine && lastLine.element) {
+            lastLine.element.appendChild(cursor);
         }
         
-        // Animação do cursor
         setInterval(() => {
             cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
-        }, 500);
-    }
-    
-    // Método para reiniciar a animação
-    restart() {
-        this.currentLine = 0;
-        this.currentChar = 0;
-        this.isTyping = false;
-        
-        // Limpa o conteúdo
-        const codeLines = this.terminal.querySelectorAll('.code-line');
-        codeLines.forEach(line => {
-            line.textContent = '> ';
-        });
-        
-        // Remove cursor
-        const cursor = this.terminal.querySelector('.terminal-cursor');
-        if (cursor) cursor.remove();
-        
-        // Reinicia
-        this.init();
+        }, 530);
     }
 }
 
 // ============================================
-// INICIALIZAÇÃO DO TERMINAL
+// INICIALIZAÇÃO
 // ============================================
 
 function initTerminalTypewriter() {
     const terminal = document.querySelector('.terminal-content');
     if (terminal) {
+        console.log('Terminal encontrado, iniciando typewriter...');
         new TerminalTypewriter(terminal);
+    } else {
+        console.warn('Terminal não encontrado!');
     }
 }
 
-// Adicione isso ao seu DOMContentLoaded principal
-document.addEventListener('DOMContentLoaded', function() {
-    // ... seu código existente ...
-    
+// Inicializa quando o DOM estiver pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTerminalTypewriter);
+} else {
     initTerminalTypewriter();
-    
-    // ... resto do código ...
-});
-
+}
 
 class ForceScrollSnap {
   constructor(options = {}) {
