@@ -1,0 +1,287 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>8Bit Lab - Painel Administrativo</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body class="admin-body">
+    <!-- Header Admin -->
+    <header class="admin-header">
+      <div class="admin-container">
+        <div class="admin-logo">
+          <img
+            src="{% static 'img/logo.png' %}"
+            alt="8Bit Lab"
+            class="admin-logo-img"
+          />
+          <h1>Painel Administrativo</h1>
+        </div>
+        <div class="admin-actions">
+          <button class="btn-admin" id="previewBtn">
+            <i class="fas fa-eye"></i> Visualizar Site
+          </button>
+          <button class="btn-admin btn-primary" id="saveBtn">
+            <i class="fas fa-save"></i> Salvar
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <nav class="admin-nav">
+        <ul>
+          <li>
+            <a href="#projects" class="nav-item active" data-section="projects">
+              <i class="fas fa-folder"></i> Projetos
+            </a>
+          </li>
+          <li>
+            <a href="#media" class="nav-item" data-section="media">
+              <i class="fas fa-images"></i> Mídia
+            </a>
+          </li>
+          <li>
+            <a href="#categories" class="nav-item" data-section="categories">
+              <i class="fas fa-tags"></i> Categorias
+            </a>
+          </li>
+          <li>
+            <a href="#settings" class="nav-item" data-section="settings">
+              <i class="fas fa-cog"></i> Configurações
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <!-- Projects Section -->
+      <section id="projects" class="admin-section active">
+        <div class="section-header">
+          <h2>Gerenciar Projetos</h2>
+          <button class="btn-admin btn-primary" id="addProjectBtn">
+            <i class="fas fa-plus"></i> Novo Projeto
+          </button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid" id="projectsGrid">
+          <!-- Projetos serão carregados aqui via JavaScript -->
+        </div>
+      </section>
+
+      <!-- Media Section -->
+      <section id="media" class="admin-section">
+        <div class="section-header">
+          <h2>Gerenciar Mídia</h2>
+          <div class="upload-area" id="uploadArea">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Arraste arquivos aqui ou clique para selecionar</p>
+            <input
+              type="file"
+              id="fileInput"
+              multiple
+              accept="image/*,video/*"
+              style="display: none"
+            />
+          </div>
+        </div>
+
+        <div class="media-grid" id="mediaGrid">
+          <!-- Mídia será carregada aqui via JavaScript -->
+        </div>
+      </section>
+
+      <!-- Categories Section -->
+      <section id="categories" class="admin-section">
+        <div class="section-header">
+          <h2>Gerenciar Categorias</h2>
+          <button class="btn-admin btn-primary" id="addCategoryBtn">
+            <i class="fas fa-plus"></i> Nova Categoria
+          </button>
+        </div>
+
+        <div class="categories-grid" id="categoriesGrid">
+          <!-- Categorias serão carregadas aqui via JavaScript -->
+        </div>
+      </section>
+
+      <!-- Settings Section -->
+      <section id="settings" class="admin-section">
+        <div class="section-header">
+          <h2>Configurações</h2>
+        </div>
+
+        <div class="settings-form">
+          <div class="form-group">
+            <label>Tamanho máximo de arquivo (MB)</label>
+            <input
+              type="number"
+              id="maxFileSize"
+              value="50"
+              min="1"
+              max="500"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="autoThumbnails" checked />
+              Gerar thumbnails automaticamente
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Formatos de imagem permitidos</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" value="jpg" checked /> JPG</label>
+              <label><input type="checkbox" value="png" checked /> PNG</label>
+              <label><input type="checkbox" value="webp" checked /> WebP</label>
+              <label><input type="checkbox" value="gif" checked /> GIF</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Formatos de vídeo permitidos</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" value="mp4" checked /> MP4</label>
+              <label><input type="checkbox" value="webm" checked /> WebM</label>
+              <label><input type="checkbox" value="mov" checked /> MOV</label>
+              <label><input type="checkbox" value="avi" checked /> AVI</label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle">Novo Projeto</h3>
+          <button class="close-btn" id="closeModal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="projectForm">
+            <div class="form-group">
+              <label for="projectTitle">Título do Projeto</label>
+              <input type="text" id="projectTitle" required />
+            </div>
+
+            <div class="form-group">
+              <label for="projectCategory">Categoria</label>
+              <select id="projectCategory" required>
+                <option value="">Selecione uma categoria</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="projectDescription">Descrição Completa</label>
+              <textarea id="projectDescription" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="projectShortDescription"
+                >Descrição Curta (para cards)</label
+              >
+              <textarea id="projectShortDescription" rows="2"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="projectTags">Tags (separadas por vírgula)</label>
+              <input
+                type="text"
+                id="projectTags"
+                placeholder="HTML, CSS, JavaScript"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="projectStatus">Status</label>
+              <select id="projectStatus">
+                <option value="draft">Rascunho</option>
+                <option value="published">Publicado</option>
+                <option value="archived">Arquivado</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="projectFeatured" />
+                Projeto em Destaque
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label>Imagens do Projeto</label>
+              <div class="file-upload-area" id="imageUploadArea">
+                <i class="fas fa-image"></i>
+                <p>Clique para adicionar imagens</p>
+                <input
+                  type="file"
+                  id="imageInput"
+                  multiple
+                  accept="image/*"
+                  style="display: none"
+                />
+              </div>
+              <div class="uploaded-files" id="uploadedImages"></div>
+            </div>
+
+            <div class="form-group">
+              <label>Vídeos do Projeto</label>
+              <div class="file-upload-area" id="videoUploadArea">
+                <i class="fas fa-video"></i>
+                <p>Clique para adicionar vídeos</p>
+                <input
+                  type="file"
+                  id="videoInput"
+                  multiple
+                  accept="video/*"
+                  style="display: none"
+                />
+              </div>
+              <div class="uploaded-files" id="uploadedVideos"></div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-admin" id="cancelProject">Cancelar</button>
+          <button class="btn-admin btn-primary" id="saveProject">
+            Salvar Projeto
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Processando...</p>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/admin.js' %}"></script>
+  </body>
+</html>

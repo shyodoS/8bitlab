@@ -755,3 +755,220 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+// ============================================
+// PORTFOLIO CAROUSEL - CARROSSEL INTERATIVO
+// ============================================
+
+class PortfolioCarousel {
+    constructor() {
+        this.track = document.getElementById('carouselTrack');
+        this.slides = document.querySelectorAll('.carousel-slide');
+        this.prevBtn = document.getElementById('prevBtn');
+        this.nextBtn = document.getElementById('nextBtn');
+        this.indicators = document.querySelectorAll('.indicator');
+        this.currentSlide = 0;
+        this.totalSlides = this.slides.length;
+        this.isAnimating = false;
+        this.autoPlayInterval = null;
+        this.autoPlayDelay = 6000; // 6 segundos (mais tempo)
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.isDragging = false;
+        
+        // Otimização: usar requestAnimationFrame
+        this.animationFrame = null;
+        
+        this.init();
+    }
+    
+    init() {
+        if (!this.track || this.slides.length === 0) {
+            console.warn('Carrossel não encontrado ou sem slides');
+            return;
+        }
+        
+        this.bindEvents();
+        this.updateCarousel();
+        this.startAutoPlay();
+        this.initHoverEffects();
+        
+        console.log('Portfolio Carousel inicializado ✓');
+    }
+    
+    bindEvents() {
+        // Botões de navegação
+        if (this.prevBtn) {
+            this.prevBtn.addEventListener('click', () => this.previousSlide());
+        }
+        
+        if (this.nextBtn) {
+            this.nextBtn.addEventListener('click', () => this.nextSlide());
+        }
+        
+        // Indicadores
+        this.indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => this.goToSlide(index));
+        });
+        
+        // Teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') this.previousSlide();
+            if (e.key === 'ArrowRight') this.nextSlide();
+        });
+        
+        // Touch/Swipe
+        this.initTouchEvents();
+        
+        // Pausar autoplay no hover
+        this.track.addEventListener('mouseenter', () => this.stopAutoPlay());
+        this.track.addEventListener('mouseleave', () => this.startAutoPlay());
+    }
+    
+    initTouchEvents() {
+        this.track.addEventListener('touchstart', (e) => {
+            this.touchStartX = e.touches[0].clientX;
+            this.touchStartY = e.touches[0].clientY;
+            this.isDragging = true;
+            this.stopAutoPlay();
+        }, { passive: true });
+        
+        this.track.addEventListener('touchmove', (e) => {
+            if (!this.isDragging) return;
+            
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const diffX = this.touchStartX - currentX;
+            const diffY = this.touchStartY - currentY;
+            
+            // Só considera swipe horizontal
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                e.preventDefault();
+            }
+        });
+        
+        this.track.addEventListener('touchend', (e) => {
+            if (!this.isDragging) return;
+            
+            const endX = e.changedTouches[0].clientX;
+            const diffX = this.touchStartX - endX;
+            
+            if (Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    this.nextSlide();
+                } else {
+                    this.previousSlide();
+                }
+            }
+            
+            this.isDragging = false;
+            this.startAutoPlay();
+        }, { passive: true });
+    }
+    
+    initHoverEffects() {
+        this.slides.forEach((slide, index) => {
+            const image = slide.querySelector('.slide-image');
+            const infoPanel = slide.querySelector('.slide-info-panel');
+            
+            if (image && infoPanel) {
+                slide.addEventListener('mouseenter', () => {
+                    this.stopAutoPlay();
+                });
+                
+                slide.addEventListener('mouseleave', () => {
+                    this.startAutoPlay();
+                });
+            }
+        });
+    }
+    
+    nextSlide() {
+        if (this.isAnimating) return;
+        
+        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+        this.updateCarousel();
+    }
+    
+    previousSlide() {
+        if (this.isAnimating) return;
+        
+        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+        this.updateCarousel();
+    }
+    
+    goToSlide(index) {
+        if (this.isAnimating || index === this.currentSlide) return;
+        
+        this.currentSlide = index;
+        this.updateCarousel();
+    }
+    
+    updateCarousel() {
+        if (this.isAnimating) return;
+        
+        this.isAnimating = true;
+        
+        // Otimização: usar requestAnimationFrame
+        if (this.animationFrame) {
+            cancelAnimationFrame(this.animationFrame);
+        }
+        
+        this.animationFrame = requestAnimationFrame(() => {
+            // Atualiza posição do track
+            const translateX = -this.currentSlide * 25; // 25% por slide
+            this.track.style.transform = `translateX(${translateX}%)`;
+            
+            // Atualiza slides ativos
+            this.slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === this.currentSlide);
+            });
+            
+            // Atualiza indicadores
+            this.indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === this.currentSlide);
+            });
+            
+            // Reset da animação mais rápido
+            setTimeout(() => {
+                this.isAnimating = false;
+            }, 500);
+        });
+    }
+    
+    startAutoPlay() {
+        this.stopAutoPlay();
+        this.autoPlayInterval = setInterval(() => {
+            this.nextSlide();
+        }, this.autoPlayDelay);
+    }
+    
+    stopAutoPlay() {
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+            this.autoPlayInterval = null;
+        }
+    }
+    
+    destroy() {
+        this.stopAutoPlay();
+        if (this.animationFrame) {
+            cancelAnimationFrame(this.animationFrame);
+        }
+        // Remove event listeners se necessário
+    }
+}
+
+// ============================================
+// INICIALIZAÇÃO DO CARROSSEL
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Inicializa o carrossel
+    const carousel = new PortfolioCarousel();
+    
+    // Adiciona ao window para acesso global se necessário
+    window.portfolioCarousel = carousel;
+    
+    console.log('Portfolio Carousel carregado ✓');
+});

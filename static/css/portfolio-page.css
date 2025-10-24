@@ -1,0 +1,555 @@
+/* ============================================
+   PORTFOLIO PAGE - PÁGINA DEDICADA (OTIMIZADA)
+   ============================================ */
+
+/* Otimização de performance */
+* {
+    box-sizing: border-box;
+}
+
+/* Reduzir repaints e reflows */
+.portfolio-card,
+.card-image img,
+.card-overlay {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+/* ============================================
+   CORREÇÃO SIMPLES PARA LOGO DA NAVBAR
+   ============================================ */
+
+.navbar .logo-img-pixel {
+    width: 35px !important;
+    height: auto !important;
+    max-width: 35px !important;
+}
+
+/* Logo do footer */
+.footer-logo {
+    width: 120px !important;
+    height: auto !important;
+    max-width: 120px !important;
+}
+
+/* ============================================
+   GARANTIR FUNDO CORRETO
+   ============================================ */
+
+body {
+    background-color: var(--dark-bg) !important;
+    color: var(--light-gray) !important;
+}
+
+/* ============================================
+   PORTFOLIO HERO
+   ============================================ */
+
+.portfolio-hero {
+    padding: 120px 0 80px;
+    background: linear-gradient(
+        135deg,
+        rgba(27, 27, 27, 0.95) 0%,
+        rgba(15, 15, 15, 0.98) 100%
+    );
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.portfolio-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(234, 83, 46, 0.03) 2px, rgba(234, 83, 46, 0.03) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 150, 255, 0.03) 2px, rgba(0, 150, 255, 0.03) 4px);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--primary-red);
+    color: var(--primary-red);
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    font-family: var(--font-primary);
+    font-size: clamp(48px, 8vw, 120px);
+    color: var(--white);
+    margin-bottom: 30px;
+    line-height: 1.1;
+    letter-spacing: 2px;
+}
+
+.hero-title .highlight {
+    color: var(--primary-red);
+}
+
+.hero-description {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--light-gray);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   PORTFOLIO FILTER
+   ============================================ */
+
+.portfolio-filter {
+    padding: 40px 0;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(234, 83, 46, 0.2);
+}
+
+.filter-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    padding: 12px 24px;
+    background: transparent;
+    border: 1px solid rgba(166, 166, 166, 0.3);
+    color: var(--light-gray);
+    font-family: var(--font-primary);
+    font-size: 12px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    border-radius: 25px;
+}
+
+.filter-tab:hover {
+    border-color: var(--primary-red);
+    color: var(--primary-red);
+    transform: translateY(-2px);
+}
+
+.filter-tab.active {
+    background: var(--primary-red);
+    border-color: var(--primary-red);
+    color: var(--white);
+}
+
+/* ============================================
+   PORTFOLIO SHOWCASE
+   ============================================ */
+
+.portfolio-showcase {
+    padding: 80px 0;
+    background: var(--dark-bg);
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.portfolio-card {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(27, 27, 27, 0.8);
+    border: 1px solid rgba(166, 166, 166, 0.1);
+}
+
+.portfolio-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(234, 83, 46, 0.3);
+    border-color: var(--primary-red);
+}
+
+.card-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(27, 27, 27, 0.8) 50%,
+        rgba(0, 0, 0, 0.9) 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 40px;
+}
+
+.portfolio-card:hover .card-overlay {
+    opacity: 1;
+}
+
+.portfolio-card:hover .card-image img {
+    transform: scale(1.1);
+}
+
+.overlay-content {
+    text-align: center;
+    color: var(--white);
+    max-width: 100%;
+}
+
+.project-number {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: var(--font-primary);
+    font-size: 48px;
+    color: rgba(234, 83, 46, 0.3);
+    font-weight: bold;
+}
+
+.project-title {
+    font-family: var(--font-primary);
+    font-size: 24px;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.project-category {
+    font-size: 12px;
+    color: var(--primary-red);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.project-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--light-gray);
+    margin-bottom: 25px;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.project-tags .tag {
+    padding: 6px 12px;
+    background: rgba(234, 83, 46, 0.1);
+    border: 1px solid rgba(234, 83, 46, 0.3);
+    border-radius: 20px;
+    font-size: 10px;
+    color: var(--primary-red);
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--primary-red);
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-primary);
+    font-size: 12px;
+    letter-spacing: 2px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.project-link:hover {
+    background: var(--blue-digital);
+    transform: translateX(5px);
+}
+
+/* ============================================
+   PORTFOLIO STATS
+   ============================================ */
+
+.portfolio-stats {
+    padding: 80px 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    text-align: center;
+}
+
+.stat-item {
+    padding: 30px;
+    background: rgba(27, 27, 27, 0.8);
+    border: 1px solid rgba(234, 83, 46, 0.2);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-red);
+    box-shadow: 0 10px 30px rgba(234, 83, 46, 0.2);
+}
+
+.stat-number {
+    font-family: var(--font-primary);
+    font-size: 48px;
+    color: var(--primary-red);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--light-gray);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   PORTFOLIO CTA
+   ============================================ */
+
+.portfolio-cta {
+    padding: 100px 0;
+    background: linear-gradient(
+        135deg,
+        rgba(234, 83, 46, 0.1) 0%,
+        rgba(0, 150, 255, 0.1) 100%
+    );
+    text-align: center;
+}
+
+.cta-content h2 {
+    font-family: var(--font-primary);
+    font-size: clamp(32px, 5vw, 48px);
+    color: var(--white);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.cta-content p {
+    font-size: 16px;
+    color: var(--light-gray);
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   ANIMAÇÕES DE FILTRO
+   ============================================ */
+
+.portfolio-card.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+}
+
+.portfolio-card.show {
+    opacity: 1;
+    transform: scale(1);
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+
+@media (max-width: 1200px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+    }
+}
+
+@media (max-width: 968px) {
+    .portfolio-hero {
+        padding: 100px 0 60px;
+    }
+    
+    .hero-title {
+        font-size: clamp(36px, 8vw, 80px);
+    }
+    
+    .hero-description {
+        font-size: 16px;
+    }
+    
+    .portfolio-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+    }
+    
+    .filter-tabs {
+        gap: 15px;
+    }
+    
+    .filter-tab {
+        padding: 10px 20px;
+        font-size: 11px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-buttons .btn-primary,
+    .cta-buttons .btn-secondary {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .portfolio-hero {
+        padding: 80px 0 40px;
+    }
+    
+    .portfolio-showcase {
+        padding: 60px 0;
+    }
+    
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .portfolio-card {
+        aspect-ratio: 16/9;
+    }
+    
+    .card-overlay {
+        padding: 30px;
+    }
+    
+    .project-title {
+        font-size: 20px;
+    }
+    
+    .project-number {
+        font-size: 36px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .stat-number {
+        font-size: 36px;
+    }
+    
+    .portfolio-stats {
+        padding: 60px 0;
+    }
+    
+    .portfolio-cta {
+        padding: 80px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .filter-tab {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .card-overlay {
+        padding: 20px;
+    }
+    
+    .project-title {
+        font-size: 18px;
+    }
+    
+    .project-description {
+        font-size: 13px;
+    }
+    
+    .project-tags .tag {
+        font-size: 9px;
+        padding: 4px 8px;
+    }
+    
+    .project-link {
+        padding: 10px 20px;
+        font-size: 11px;
+    }
+}

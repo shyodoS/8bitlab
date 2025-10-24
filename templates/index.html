@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,31 +8,32 @@
     <title>8Bit Lab | Design. Code. Intelligence.</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="static/img/logo_favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="static/img/logo_favicon.ico">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/logo_favicon.ico' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/logo_favicon.ico' %}">
     
     <!-- Favicon para diferentes dispositivos -->
-    <link rel="apple-touch-icon" sizes="180x180" href="static/img/logo_favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="static/img/logo_favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="static/img/logo_favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/logo_favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/logo_favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/logo_favicon.ico' %}">
     
     <!-- PRELOAD FONTS - Carrega fontes com prioridade -->
     <link rel="preload" 
-          href="static/fonts/Jersey15/Jersey15-Regular.ttf" 
+          href="{% static 'fonts/Jersey15/Jersey15-Regular.ttf' %}" 
           as="font" 
           type="font/ttf" 
           crossorigin>
     
     <link rel="preload" 
-          href="static/fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf" 
+          href="{% static 'fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf' %}" 
           as="font" 
           type="font/ttf" 
           crossorigin>
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="static/css/style.css">
-    <link rel="stylesheet" href="static/css/animations.css">
-    <link rel="stylesheet" href="static/css/responsive.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
     
     <!-- FONT LOADER SCRIPT - Anti-FOUT -->
     <script>
@@ -40,18 +42,18 @@
       document.documentElement.classList.add('fonts-loading');
       
       const fonts = [
-        new FontFace('Jersey 15', 'url(static/fonts/Jersey15/Jersey15-Regular.ttf)', {
+        new FontFace('Jersey 15', 'url({% static "fonts/Jersey15/Jersey15-Regular.ttf" %})', {
           weight: '400',
           style: 'normal',
           display: 'swap'
         }),
-        new FontFace('Open Sans', 'url(static/fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf)', {
+        new FontFace('Open Sans', 'url({% static "fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf" %})', {
           weight: '100 900',
           stretch: '75% 125%',
           style: 'normal',
           display: 'swap'
         }),
-        new FontFace('Open Sans', 'url(static/fonts/OpenSans/OpenSans-Italic-VariableFont_wdth,wght.ttf)', {
+        new FontFace('Open Sans', 'url({% static "fonts/OpenSans/OpenSans-Italic-VariableFont_wdth,wght.ttf" %})', {
           weight: '100 900',
           stretch: '75% 125%',
           style: 'italic',
@@ -94,7 +96,7 @@
         <div class="logo">
             <a href="#" class="logo-link" onclick="scrollToTop()">
                 <div class="logo-pixel-pulse">
-                    <img src="static/img/logo.png" alt="8BIT LAB Logo" class="logo-img-pixel" width="35" height="auto">
+                    <img src="{% static 'img/logo.png' %}" alt="8BIT LAB Logo" class="logo-img-pixel" width="35" height="auto">
                 </div>
             </a>
         </div>
@@ -211,7 +213,7 @@ function scrollToTop() {
                 </div>
     <div class="terminal-image">
                     <div class="computer-pixel-pulse">
-                        <img src="static/img/8bitpc.png" 
+                        <img src="{% static 'img/8bitpc.png' %}" 
                              alt="Computador 8Bit Lab" 
                              class="computer-img-pixel" 
                              width="400" height="auto">
@@ -387,131 +389,130 @@ function scrollToTop() {
 
 <script src="main.js"></script>
     <!-- Portfolio Section -->
-    <section id="projetos" class="portfolio section-padding">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">// 03</span>
-                <h2 class="section-title">LAB EXPERIMENTS</h2>
-                <p class="section-subtitle">BRANDING, WEB E CRIAÇÕES COM IA</p>
-            </div>
-            
-            <p class="portfolio-intro">
-                 Trabalhamos em projetos próprios e para clientes.<br>
-                 O portfólio da 8Bit mistura design, desenvolvimento e experimentação com IA<br>
-                 sempre com estética e performance no mesmo nível.
-            </p>
-            
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <div class="portfolio-frame">
-                        <div class="frame-corner tl"></div>
-                        <div class="frame-corner tr"></div>
-                        <div class="frame-corner bl"></div>
-                        <div class="frame-corner br"></div>
+<section id="projetos" class="portfolio section-padding">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-number">// 03</span>
+            <h2 class="section-title">LAB EXPERIMENTS</h2>
+            <p class="section-subtitle">BRANDING, WEB E CRIAÇÕES COM IA</p>
+        </div>
+        
+        <p class="portfolio-intro">
+             Trabalhamos em projetos próprios e para clientes.<br>
+             O portfólio da 8Bit mistura design, desenvolvimento e experimentação com IA<br>
+             sempre com estética e performance no mesmo nível.
+        </p>
+        
+        <!-- CARROSSEL DE PORTFÓLIO -->
+        <div class="portfolio-carousel-container">
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- PROJETO 01 - CASACLICK -->
+                    <div class="carousel-slide active" data-slide="0">
+                        <div class="slide-image">
+                            <img src="{% static 'img/casaclick.png' %}" alt="CasaClick - Sistema Imersivo para Imobiliárias" loading="lazy">
+                            <div class="image-overlay"></div>
+                        </div>
+                        <div class="slide-info-panel">
+                            <div class="project-number">01</div>
+                            <h3 class="project-title">CASACLICK</h3>
+                            <p class="project-category">SISTEMA IMERSIVO PARA IMOBILIÁRIAS</p>
+                            <p class="project-description">Plataforma completa de gestão imobiliária com interface moderna e funcionalidades avançadas para corretores e clientes.</p>
+                            <div class="project-tags">
+                                <span class="tag">WEB DESIGN</span>
+                                <span class="tag">UI/UX</span>
+                                <span class="tag">SISTEMA</span>
+                            </div>
+                            <a href="{% url 'portfolio' %}" class="project-link">VER PORTFÓLIO →</a>
+                        </div>
                     </div>
-                    <div class="portfolio-image grad-1">
-                        <div class="portfolio-scan"></div>
+
+                    <!-- PROJETO 02 - 8BIT STORE -->
+                    <div class="carousel-slide" data-slide="1">
+                        <div class="slide-image">
+                            <img src="{% static 'img/8bitstore.png' %}" alt="8Bit Store - E-commerce Geek" loading="lazy">
+                            <div class="image-overlay"></div>
+                        </div>
+                        <div class="slide-info-panel">
+                            <div class="project-number">02</div>
+                            <h3 class="project-title">8BIT STORE</h3>
+                            <p class="project-category">E-COMMERCE COM PRODUTOS GEEK</p>
+                            <p class="project-description">Loja online especializada em produtos geek e cultura pop, com design retrô e experiência de compra única.</p>
+                            <div class="project-tags">
+                                <span class="tag">E-COMMERCE</span>
+                                <span class="tag">BRANDING</span>
+                                <span class="tag">DESIGN</span>
+                            </div>
+                            <a href="{% url 'portfolio' %}" class="project-link">VER PORTFÓLIO →</a>
+                        </div>
                     </div>
-                    <div class="portfolio-overlay">
-                        <div class="portfolio-number">01</div>
-                        <h3 class="portfolio-title">PROJETO ALPHA</h3>
-                        <p class="portfolio-category">BRANDING • WEB DESIGN</p>
-                        <div class="portfolio-arrow">→</div>
+
+                    <!-- PROJETO 03 - TECH PLATFORM -->
+                    <div class="carousel-slide" data-slide="2">
+                        <div class="slide-image">
+                            <img src="{% static 'img/8bitpc.png' %}" alt="Tech Platform - Desenvolvimento Web" loading="lazy">
+                            <div class="image-overlay"></div>
+                        </div>
+                        <div class="slide-info-panel">
+                            <div class="project-number">03</div>
+                            <h3 class="project-title">TECH PLATFORM</h3>
+                            <p class="project-category">WEB DEV • API</p>
+                            <p class="project-description">Plataforma de desenvolvimento web com APIs robustas e interface moderna para desenvolvedores e empresas.</p>
+                            <div class="project-tags">
+                                <span class="tag">WEB DEV</span>
+                                <span class="tag">API</span>
+                                <span class="tag">TECH</span>
+                            </div>
+                            <a href="{% url 'portfolio' %}" class="project-link">VER PORTFÓLIO →</a>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="portfolio-item">
-                    <div class="portfolio-frame">
-                        <div class="frame-corner tl"></div>
-                        <div class="frame-corner tr"></div>
-                        <div class="frame-corner bl"></div>
-                        <div class="frame-corner br"></div>
-                    </div>
-                    <div class="portfolio-image grad-2">
-                        <div class="portfolio-scan"></div>
-                    </div>
-                    <div class="portfolio-overlay">
-                        <div class="portfolio-number">02</div>
-                        <h3 class="portfolio-title">AI CREATIVE LAB</h3>
-                        <p class="portfolio-category">AI CREATIVE • VIDEO</p>
-                        <div class="portfolio-arrow">→</div>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item">
-                    <div class="portfolio-frame">
-                        <div class="frame-corner tl"></div>
-                        <div class="frame-corner tr"></div>
-                        <div class="frame-corner bl"></div>
-                        <div class="frame-corner br"></div>
-                    </div>
-                    <div class="portfolio-image grad-3">
-                        <div class="portfolio-scan"></div>
-                    </div>
-                    <div class="portfolio-overlay">
-                        <div class="portfolio-number">03</div>
-                        <h3 class="portfolio-title">TECH PLATFORM</h3>
-                        <p class="portfolio-category">WEB DEV • API</p>
-                        <div class="portfolio-arrow">→</div>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item">
-                    <div class="portfolio-frame">
-                        <div class="frame-corner tl"></div>
-                        <div class="frame-corner tr"></div>
-                        <div class="frame-corner bl"></div>
-                        <div class="frame-corner br"></div>
-                    </div>
-                    <div class="portfolio-image grad-4">
-                        <div class="portfolio-scan"></div>
-                    </div>
-                    <div class="portfolio-overlay">
-                        <div class="portfolio-number">04</div>
-                        <h3 class="portfolio-title">BRAND IDENTITY</h3>
-                        <p class="portfolio-category">BRAND • MOTION</p>
-                        <div class="portfolio-arrow">→</div>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item">
-                    <div class="portfolio-frame">
-                        <div class="frame-corner tl"></div>
-                        <div class="frame-corner tr"></div>
-                        <div class="frame-corner bl"></div>
-                        <div class="frame-corner br"></div>
-                    </div>
-                    <div class="portfolio-image grad-5">
-                        <div class="portfolio-scan"></div>
-                    </div>
-                    <div class="portfolio-overlay">
-                        <div class="portfolio-number">05</div>
-                        <h3 class="portfolio-title">UI/UX SYSTEM</h3>
-                        <p class="portfolio-category">UI/UX • FRONTEND</p>
-                        <div class="portfolio-arrow">→</div>
+
+                    <!-- PROJETO 04 - BRAND IDENTITY -->
+                    <div class="carousel-slide" data-slide="3">
+                        <div class="slide-image">
+                            <img src="{% static 'img/logo.png' %}" alt="Brand Identity - Identidade Visual" loading="lazy">
+                            <div class="image-overlay"></div>
+                        </div>
+                        <div class="slide-info-panel">
+                            <div class="project-number">04</div>
+                            <h3 class="project-title">BRAND IDENTITY</h3>
+                            <p class="project-category">BRAND • MOTION</p>
+                            <p class="project-description">Desenvolvimento de identidade visual completa com animações e motion design para marcas inovadoras.</p>
+                            <div class="project-tags">
+                                <span class="tag">BRANDING</span>
+                                <span class="tag">MOTION</span>
+                                <span class="tag">IDENTITY</span>
+                            </div>
+                            <a href="{% url 'portfolio' %}" class="project-link">VER PORTFÓLIO →</a>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="portfolio-item">
-                    <div class="portfolio-frame">
-                        <div class="frame-corner tl"></div>
-                        <div class="frame-corner tr"></div>
-                        <div class="frame-corner bl"></div>
-                        <div class="frame-corner br"></div>
-                    </div>
-                    <div class="portfolio-image grad-6">
-                        <div class="portfolio-scan"></div>
-                    </div>
-                    <div class="portfolio-overlay">
-                        <div class="portfolio-number">06</div>
-                        <h3 class="portfolio-title">GENERATIVE ART</h3>
-                        <p class="portfolio-category">IA • BRANDING</p>
-                        <div class="portfolio-arrow">→</div>
-                    </div>
+
+                <!-- CONTROLES DO CARROSSEL -->
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev-btn" id="prevBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="carousel-btn next-btn" id="nextBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- INDICADORES -->
+                <div class="carousel-indicators">
+                    <button class="indicator active" data-slide="0"></button>
+                    <button class="indicator" data-slide="1"></button>
+                    <button class="indicator" data-slide="2"></button>
+                    <button class="indicator" data-slide="3"></button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Contact Section -->
 <section id="contato" class="contact section-padding">
@@ -694,9 +695,9 @@ function scrollToTop() {
 </footer>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="static/js/email.js"></script>
-    <script src="static/js/main.js"></script>
-    <script src="static/js/cursor.js"></script>
+    <script src="{% static 'js/email.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/cursor.js' %}"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
     lucide.createIcons();

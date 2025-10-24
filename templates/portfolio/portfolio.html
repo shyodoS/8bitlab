@@ -1,0 +1,302 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfólio - 8Bit Lab | Projetos e Cases</title>
+    <meta
+      name="description"
+      content="Conheça nossos projetos de design, desenvolvimento web e soluções digitais inovadoras."
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'img/logo_favicon.ico' %}" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="{% static 'img/logo_favicon.ico' %}"
+    />
+
+    <!-- Favicon para diferentes dispositivos -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{% static 'img/logo_favicon.ico' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'img/logo_favicon.ico' %}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'img/logo_favicon.ico' %}"
+    />
+
+    <!-- PRELOAD FONTS - Carrega fontes com prioridade -->
+    <link
+      rel="preload"
+      href="{% static 'fonts/Jersey15/Jersey15-Regular.ttf' %}"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+
+    <link
+      rel="preload"
+      href="{% static 'fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf' %}"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/portfolio.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/portfolio-page.css' %}" />
+
+    <!-- FONT LOADER SCRIPT - Anti-FOUT -->
+    <script>
+      (function () {
+        "use strict";
+        document.documentElement.classList.add("fonts-loading");
+
+        const fonts = [
+          new FontFace(
+            "Jersey 15",
+            "url({% static 'fonts/Jersey15/Jersey15-Regular.ttf' %})",
+            {
+              weight: "400",
+              style: "normal",
+              display: "swap",
+            }
+          ),
+          new FontFace(
+            "Open Sans",
+            "url({% static 'fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf' %})",
+            {
+              weight: "100 900",
+              stretch: "75% 125%",
+              style: "normal",
+              display: "swap",
+            }
+          ),
+          new FontFace(
+            "Open Sans",
+            "url({% static 'fonts/OpenSans/OpenSans-Italic-VariableFont_wdth,wght.ttf' %})",
+            {
+              weight: "100 900",
+              stretch: "75% 125%",
+              style: "italic",
+              display: "swap",
+            }
+          ),
+        ];
+
+        Promise.all(fonts.map((font) => font.load()))
+          .then((loadedFonts) => {
+            loadedFonts.forEach((font) => document.fonts.add(font));
+            document.documentElement.classList.remove("fonts-loading");
+            document.documentElement.classList.add("fonts-loaded");
+          })
+          .catch((err) => {
+            console.error("Erro ao carregar fontes:", err);
+            document.documentElement.classList.remove("fonts-loading");
+            document.documentElement.classList.add("fonts-error");
+          });
+
+        setTimeout(() => {
+          if (document.documentElement.classList.contains("fonts-loading")) {
+            document.documentElement.classList.remove("fonts-loading");
+            document.documentElement.classList.add("fonts-timeout");
+          }
+        }, 3000);
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <a href="{% url 'home' %}" class="logo-link">
+          <div class="logo">
+            <img
+              src="{% static 'img/logo.png' %}"
+              alt="8Bit Lab"
+              class="logo-img-pixel"
+            />
+          </div>
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="{% url 'home' %}#hero" class="nav-link">INÍCIO</a></li>
+          <li><a href="{% url 'home' %}#sobre" class="nav-link">SOBRE</a></li>
+          <li>
+            <a href="{% url 'home' %}#servicos" class="nav-link">SERVIÇOS</a>
+          </li>
+          <li>
+            <a href="{% url 'portfolio' %}" class="nav-link active">PORTFÓLIO</a>
+          </li>
+          <li><a href="{% url 'home' %}#contato" class="nav-link">CONTATO</a></li>
+        </ul>
+
+        <div class="menu-toggle" id="menuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Portfolio Hero -->
+    <section class="portfolio-hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">PORTFÓLIO</div>
+          <h1 class="hero-title">
+            NOSSOS <span class="highlight">PROJETOS</span>
+          </h1>
+          <p class="hero-description">
+            Explore nossa coleção de projetos que combinam design inovador,
+            desenvolvimento técnico e soluções criativas para desafios reais.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter Tabs -->
+    <section class="portfolio-filters">
+      <div class="container">
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">TODOS</button>
+          {% for category in categories %}
+          <button class="filter-tab" data-filter="{{ category.slug }}">{{ category.name|upper }}</button>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section class="portfolio-showcase">
+      <div class="container">
+        <div class="portfolio-grid">
+          {% for project in projects %}
+          <div class="portfolio-card" data-category="{{ project.category.slug }}">
+            <div class="card-image">
+              {% if project.main_image %}
+                <img
+                  src="{{ project.main_image.image.url }}"
+                  alt="{{ project.title }}"
+                  loading="lazy"
+                />
+              {% else %}
+                <img
+                  src="{% static 'img/logo.png' %}"
+                  alt="{{ project.title }}"
+                  loading="lazy"
+                />
+              {% endif %}
+              <div class="card-overlay">
+                <div class="overlay-content">
+                  <div class="project-number">{{ forloop.counter|stringformat:"02d" }}</div>
+                  <h3 class="project-title">{{ project.title|upper }}</h3>
+                  <p class="project-category">
+                    {{ project.category.name|upper }}
+                  </p>
+                  <p class="project-description">
+                    {{ project.short_description|default:project.description|truncatewords:20 }}
+                  </p>
+                  <div class="project-tags">
+                    {% if project.tags %}
+                      {% for tag in project.tags %}
+                        <span class="tag">{{ tag|upper }}</span>
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+                  <a href="#" class="project-link">VER DETALHES →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="no-projects">
+            <h3>Nenhum projeto encontrado</h3>
+            <p>Os projetos aparecerão aqui quando forem adicionados.</p>
+            <a href="{% url 'admin_panel' %}" class="btn-admin">ADICIONAR PROJETO</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="portfolio-stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number" data-target="{{ projects|length }}">0</div>
+            <div class="stat-label">PROJETOS</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="{{ categories|length }}">0</div>
+            <div class="stat-label">CATEGORIAS</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="100">0</div>
+            <div class="stat-label">CLIENTES</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="50">0</div>
+            <div class="stat-label">CASES</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="portfolio-cta">
+      <div class="container">
+        <div class="cta-content">
+          <h2>PRONTO PARA SEU PRÓXIMO PROJETO?</h2>
+          <p>
+            Vamos criar algo incrível juntos. Entre em contato e vamos conversar
+            sobre suas ideias.
+          </p>
+          <a href="{% url 'home' %}#contato" class="btn-primary">INICIAR PROJETO</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-minimal">
+      <div class="container">
+        <div class="footer-content-minimal">
+          <div class="footer-brand-minimal">
+            <img
+              src="{% static 'img/logo_font.png' %}"
+              alt="8Bit Lab"
+              class="footer-logo"
+            />
+            <p class="footer-tagline-minimal">CRIANDO O FUTURO DIGITAL</p>
+          </div>
+          <div class="footer-links-minimal">
+            <a href="{% url 'home' %}">Início</a>
+            <a href="{% url 'portfolio' %}">Portfólio</a>
+            <a href="{% url 'admin_panel' %}">Admin</a>
+          </div>
+        </div>
+        <div class="footer-bottom-minimal">
+          <p>&copy; 2025 8Bit Lab. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/portfolio-page.js' %}"></script>
+  </body>
+</html>

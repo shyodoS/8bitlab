@@ -1,0 +1,481 @@
+/* ============================================
+   PORTFOLIO CAROUSEL - CARROSSEL OTIMIZADO
+   ============================================ */
+
+/* Otimização de performance */
+.portfolio-carousel-container,
+.carousel-track,
+.carousel-slide,
+.slide-image img {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+.portfolio-carousel-container {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    min-height: 500px;
+    max-height: 800px;
+    overflow: hidden;
+    margin: 40px 0;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    width: 400%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.carousel-slide {
+    position: relative;
+    width: 25%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4;
+    transition: opacity 0.4s ease;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.slide-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.slide-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.1) 50%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.carousel-slide:hover .image-overlay {
+    opacity: 1;
+}
+
+.carousel-slide:hover .slide-image img {
+    transform: scale(1.02);
+}
+
+/* ============================================
+   PAINEL DE INFORMAÇÕES - OTIMIZADO
+   ============================================ */
+
+.slide-info-panel {
+    position: absolute;
+    top: 50%;
+    right: 3%;
+    transform: translateY(-50%);
+    width: 350px;
+    max-width: 90%;
+    padding: 30px;
+    background: linear-gradient(
+        135deg,
+        rgba(27, 27, 27, 0.95) 0%,
+        rgba(15, 15, 15, 0.98) 100%
+    );
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(234, 83, 46, 0.2);
+    border-radius: 12px;
+    opacity: 0;
+    transform: translateY(-50%) translateX(20px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.carousel-slide:hover .slide-info-panel {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+    pointer-events: all;
+}
+
+.project-number {
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    font-family: var(--font-primary);
+    font-size: 36px;
+    color: rgba(234, 83, 46, 0.3);
+    font-weight: bold;
+    line-height: 1;
+}
+
+.project-title {
+    font-family: var(--font-primary);
+    font-size: 20px;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+.project-category {
+    font-size: 11px;
+    color: var(--primary-red);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.project-description {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--light-gray);
+    margin-bottom: 20px;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.project-tags .tag {
+    padding: 4px 10px;
+    background: rgba(234, 83, 46, 0.1);
+    border: 1px solid rgba(234, 83, 46, 0.3);
+    border-radius: 15px;
+    font-size: 9px;
+    color: var(--primary-red);
+    letter-spacing: 0.5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    background: var(--primary-red);
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-primary);
+    font-size: 11px;
+    letter-spacing: 1px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+.project-link:hover {
+    background: var(--blue-digital);
+    transform: translateX(3px);
+}
+
+/* ============================================
+   CONTROLES DO CARROSSEL - OTIMIZADOS
+   ============================================ */
+
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    pointer-events: none;
+}
+
+.carousel-btn {
+    width: 50px;
+    height: 50px;
+    background: rgba(27, 27, 27, 0.8);
+    border: 1px solid rgba(234, 83, 46, 0.3);
+    border-radius: 50%;
+    color: var(--light-gray);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    pointer-events: all;
+    backdrop-filter: blur(10px);
+}
+
+.carousel-btn:hover {
+    background: rgba(234, 83, 46, 0.2);
+    border-color: var(--primary-red);
+    color: var(--primary-red);
+    transform: scale(1.1);
+}
+
+.carousel-btn:active {
+    transform: scale(0.95);
+}
+
+.carousel-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ============================================
+   INDICADORES - OTIMIZADOS
+   ============================================ */
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    background: rgba(166, 166, 166, 0.3);
+    border: 1px solid rgba(234, 83, 46, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    pointer-events: all;
+}
+
+.indicator.active {
+    background: var(--primary-red);
+    border-color: var(--primary-red);
+    transform: scale(1.2);
+}
+
+.indicator:hover {
+    background: rgba(234, 83, 46, 0.5);
+    border-color: var(--primary-red);
+}
+
+/* ============================================
+   RESPONSIVIDADE OTIMIZADA
+   ============================================ */
+
+@media (max-width: 1200px) {
+    .portfolio-carousel-container {
+        height: 60vh;
+        min-height: 450px;
+    }
+    
+    .slide-info-panel {
+        width: 300px;
+        padding: 25px;
+    }
+    
+    .project-title {
+        font-size: 18px;
+    }
+    
+    .project-description {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 968px) {
+    .portfolio-carousel-container {
+        height: 50vh;
+        min-height: 400px;
+        margin: 30px 0;
+    }
+    
+    .slide-info-panel {
+        width: 280px;
+        right: 2%;
+        padding: 20px;
+    }
+    
+    .project-title {
+        font-size: 16px;
+    }
+    
+    .project-description {
+        font-size: 11px;
+    }
+    
+    .carousel-controls {
+        padding: 0 15px;
+    }
+    
+    .carousel-btn {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .carousel-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .portfolio-carousel-container {
+        height: 40vh;
+        min-height: 350px;
+        margin: 20px 0;
+    }
+    
+    .slide-info-panel {
+        position: static;
+        transform: none;
+        width: 100%;
+        margin-top: 20px;
+        opacity: 1;
+        background: rgba(27, 27, 27, 0.9);
+    }
+    
+    .carousel-slide {
+        flex-direction: column;
+    }
+    
+    .slide-image {
+        height: 60%;
+    }
+    
+    .project-title {
+        font-size: 18px;
+    }
+    
+    .project-description {
+        font-size: 12px;
+    }
+    
+    .carousel-controls {
+        padding: 0 10px;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .carousel-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .indicator {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .portfolio-carousel-container {
+        height: 35vh;
+        min-height: 300px;
+    }
+    
+    .slide-info-panel {
+        padding: 15px;
+        margin-top: 15px;
+    }
+    
+    .project-title {
+        font-size: 16px;
+    }
+    
+    .project-description {
+        font-size: 11px;
+    }
+    
+    .project-tags .tag {
+        font-size: 8px;
+        padding: 3px 8px;
+    }
+    
+    .project-link {
+        padding: 8px 16px;
+        font-size: 10px;
+    }
+    
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .carousel-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* ============================================
+   ANIMAÇÕES DE ENTRADA
+   ============================================ */
+
+.portfolio-carousel-container {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   OTIMIZAÇÕES DE PERFORMANCE
+   ============================================ */
+
+/* Reduzir repaints */
+.carousel-track {
+    contain: layout style paint;
+}
+
+.carousel-slide {
+    contain: layout style paint;
+}
+
+/* Otimizar transições */
+.slide-image img,
+.image-overlay,
+.slide-info-panel {
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Melhorar renderização */
+.portfolio-carousel-container {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
