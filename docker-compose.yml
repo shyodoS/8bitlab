@@ -6,13 +6,13 @@ services:
     environment:
       - POSTGRES_DB=bitlab_portfolio
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
     ports:
       - "5432:5432"
 
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: sh -c "python manage.py migrate --noinput && gunicorn bitlab_portfolio.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120"
     volumes:
       - .:/app
       - static_volume:/app/staticfiles
@@ -20,8 +20,15 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DEBUG=1
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/bitlab_portfolio
+      - DEBUG=0
+      - SECRET_KEY=${SECRET_KEY:-change-me}
+      - POSTGRES_DB=bitlab_portfolio
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,web,72.60.252.126,8bitlab.com.br,www.8bitlab.com.br
+      - CSRF_TRUSTED_ORIGINS=http://72.60.252.126,https://8bitlab.com.br,https://www.8bitlab.com.br,http://8bitlab.com.br,http://www.8bitlab.com.br
     depends_on:
       - db
 

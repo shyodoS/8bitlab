@@ -1,0 +1,43 @@
+{% load static %}
+<!-- Navigation -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <div class="logo">
+      <a href="{% url 'home' %}" class="logo-link" onclick="scrollToTop()">
+        <div class="logo-pixel-pulse">
+          <img
+            src="{% static 'img/logo.png' %}"
+            alt="8BIT LAB Logo"
+            class="logo-img-pixel"
+            width="35"
+            height="auto"
+          />
+        </div>
+      </a>
+    </div>
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return false;
+      }
+    </script>
+    <div class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="{% url 'home' %}#sobre" class="nav-link">SOBRE</a></li>
+      <li><a href="{% url 'home' %}#servicos" class="nav-link">SERVIÇOS</a></li>
+      <li>
+        <a
+          href="{% url 'portfolio' %}"
+          class="nav-link {% if request.resolver_match.url_name == 'portfolio' %}active{% endif %}"
+          >PORTFÓLIO</a
+        >
+      </li>
+      <li><a href="{% url 'home' %}#contato" class="nav-link">CONTATO</a></li>
+    </ul>
+  </div>
+</nav>
+

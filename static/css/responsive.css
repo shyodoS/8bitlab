@@ -117,9 +117,16 @@
         font-size: 14px;
     }
 
+    /* Logo navbar */
+    .logo-text {
+        font-size: 16px;
+        letter-spacing: 1.5px;
+    }
+
     /* Hero */
     .hero-title {
-        font-size: clamp(36px, 10vw, 60px);
+        font-size: clamp(48px, 14vw, 80px);
+        letter-spacing: 3px;
     }
 
     .hero-visual {
@@ -236,8 +243,14 @@
         font-size: 12px;
     }
 
+    .logo-text {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+
     .hero-title {
-        font-size: 32px;
+        font-size: 44px;
+        letter-spacing: 2px;
     }
 
     .hero-tagline {

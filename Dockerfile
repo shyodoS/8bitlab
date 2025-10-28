@@ -27,10 +27,12 @@ COPY . /app/
 RUN mkdir -p /app/staticfiles /app/media
 
 # Collect static files
-RUN python manage.py collectstatic --noinput
+# Collect static at build time
+RUN python manage.py collectstatic --noinput || true
 
 # Expose port
 EXPOSE 8000
 
 # Run the application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Use Gunicorn for production serving
+CMD ["gunicorn", "bitlab_portfolio.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120"]

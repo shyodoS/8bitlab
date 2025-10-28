@@ -129,7 +129,7 @@ h1, h2, h3, .section-title, .hero-title, .nav-link, .logo-glitch {
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
 }
 
 body {
@@ -556,6 +556,23 @@ h1, h2, h3, h4, h5, h6 {
     gap: 10px;
 }
 
+.logo-text {
+    font-family: 'Jersey 15', 'Courier New', 'Lucida Console', monospace;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--white);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.logo-link:hover .logo-text {
+    color: var(--primary-red);
+    text-shadow: 
+        0 0 10px var(--primary-red),
+        0 0 20px var(--primary-red);
+}
+
 .logo-highlight {
     color: var(--primary-red);
 }
@@ -659,11 +676,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-title {
-    font-size: clamp(48px, 8vw, 160px);
+    font-size: clamp(64px, 12vw, 200px);
     color: var(--white);
     margin-bottom: var(--spacing-md);
-    line-height: 1.1;
+    line-height: 1.2;
     position: relative;
+    font-weight: 400;
+    letter-spacing: 5px;
 }
 
 .hero-title .line {
@@ -1191,6 +1210,141 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
+   ABOUT SECTION - SIMPLIFICADA
+   ============================================ */
+
+.about-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 60px auto 0;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.about-paragraph {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--light-gray);
+}
+
+.about-paragraph .highlight {
+    color: var(--primary-red);
+    font-weight: 600;
+}
+
+.about-paragraph.accent {
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 500;
+    padding: 20px 0;
+    border-left: 3px solid var(--primary-red);
+    padding-left: 20px;
+}
+
+.about-badge {
+    background: rgba(234, 83, 46, 0.1);
+    border: 1px solid var(--primary-red);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.about-badge span {
+    color: var(--primary-red);
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+.about-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.computer-pixel-pulse {
+    position: relative;
+    display: inline-block;
+    padding: 20px;
+}
+
+.computer-img-pixel {
+    max-width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+    transition: all 0.3s ease;
+    filter: brightness(1.1);
+}
+
+.computer-pixel-pulse:hover .computer-img-pixel {
+    animation: pixel-pulse 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px var(--primary-red)) brightness(1.2);
+}
+
+@keyframes pixel-pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+/* About Responsive */
+@media (max-width: 968px) {
+    .about-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .about-visual {
+        order: -1;
+    }
+
+    .computer-img-pixel {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-paragraph {
+        font-size: 15px;
+    }
+
+    .about-paragraph.accent {
+        font-size: 16px;
+        padding: 15px 0;
+        padding-left: 15px;
+    }
+
+    .computer-img-pixel {
+        max-width: 250px;
+    }
+
+    .about-badge {
+        padding: 15px;
+    }
+
+    .about-badge span {
+        font-size: 12px;
+    }
+}
+
+/* ============================================
    NOVA CONTACT SECTION - MODERNA
    ============================================ */
 
@@ -1480,10 +1634,6 @@ h1, h2, h3, h4, h5, h6 {
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 40px;
-    }
-    
-    .contact-form-modern {
-        order: -1;
     }
 }
 
